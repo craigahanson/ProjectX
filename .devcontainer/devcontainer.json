@@ -1,0 +1,8 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+	"name": "ProjectX",
+	"dockerFile": "Dockerfile",
+	"extensions": [
+		"ms-vscode.csharp"
+	]
+}
