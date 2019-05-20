@@ -2,6 +2,7 @@
 {
 	"name": "ProjectX",
 	"dockerFile": "Dockerfile",
+	"appPort": [5000, 5001],
 	"extensions": [
 		"ms-vscode.csharp"
 	]
