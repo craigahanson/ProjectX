@@ -16,7 +16,7 @@
             </tr>
             @foreach(var person in Model.People)
             {
-                <tr>
+                <tr class="clickable" onclick="location.href='@Url.Action("Person", "People", new { id = person.Id })'">
                     <td>@person.Id</td>
                     <td>@person.FirstName</td>
                     <td>@person.LastName</td>

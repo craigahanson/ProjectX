@@ -18,6 +18,8 @@ namespace ProjectX.Mvc.Controllers
         {
             this.peopleService = peopleService;
         }
+
+        [Route("People")]
         public IActionResult Index()
         {
             var people = peopleService.GetAll();
@@ -30,6 +32,23 @@ namespace ProjectX.Mvc.Controllers
                     FirstName = p.FirstName,
                     LastName = p.LastName
                 })
+            });
+        }
+
+        [Route("People/{id:int}")]
+        public IActionResult Person(int id)
+        {
+            var person = peopleService.GetById(id);
+            if(person == null)
+            {
+                RedirectToAction("Home", "Error");
+            }
+
+            return View("Person", new PersonModel
+            {
+                Id = person.Id,
+                FirstName = person.FirstName,
+                LastName = person.LastName
             });
         }
     }
