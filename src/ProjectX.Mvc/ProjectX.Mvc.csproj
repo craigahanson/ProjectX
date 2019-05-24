@@ -13,8 +13,8 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\projectx.di\ProjectX.Di.csproj" />
-    <ProjectReference Include="..\projectx.api.abstractions\ProjectX.Api.Abstractions.csproj" />
+    <ProjectReference Include="..\ProjectX.Di\ProjectX.Di.csproj" />
+    <ProjectReference Include="..\ProjectX.Api.Abstractions\ProjectX.Api.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
