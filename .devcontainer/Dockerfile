@@ -6,7 +6,11 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:latest
 
 # Install git, process tools
-RUN apt-get update && apt-get -y install git procps
+RUN apt-get update \
+    && apt-get -y install git \
+    && apt-get -y install procps \
+    && curl -sL https://deb.nodesource.com/setup_12.x | bash \
+    && apt-get install -y nodejs
 
 # Clean up
 RUN apt-get autoremove -y \
