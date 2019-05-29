@@ -10,7 +10,8 @@ RUN apt-get update \
     && apt-get -y install git \
     && apt-get -y install procps \
     && curl -sL https://deb.nodesource.com/setup_12.x | bash \
-    && apt-get install -y nodejs
+    && apt-get -y install nodejs \
+    && npm install -g @angular/cli
 
 # Clean up
 RUN apt-get autoremove -y \
