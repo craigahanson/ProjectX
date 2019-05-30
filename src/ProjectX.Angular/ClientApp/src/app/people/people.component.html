@@ -14,7 +14,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let person of people">
-      <td>{{ person.id }}</td>
+      <td><a [routerLink]="['/people', person.id]">{{ person.id }}</a></td>
       <td>{{ person.firstName }}</td>
       <td>{{ person.lastName }}</td>
     </tr>
