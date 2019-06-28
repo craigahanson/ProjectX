@@ -3,7 +3,7 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 
-FROM mcr.microsoft.com/dotnet/core/sdk:latest
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0.100-preview6
 
 # Install git, process tools
 RUN apt-get update \
