@@ -35,7 +35,7 @@ else
 
     protected override async Task OnInitAsync()
     {
-        people = await Http.GetJsonAsync<WebPerson[]>("http://localhost:1000/api/people");
+        people = await Http.GetJsonAsync<WebPerson[]>("https://localhost:1001/api/people");
     }
 
     class WebPerson
