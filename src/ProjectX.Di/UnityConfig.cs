@@ -10,6 +10,7 @@ namespace ProjectX.Di
         public static void Build(IServiceCollection services)
         {
             services.AddScoped<IPeopleService, PeopleService>();
+            services.AddScoped<IVersionService, VersionService>();
         }
     }
 }
