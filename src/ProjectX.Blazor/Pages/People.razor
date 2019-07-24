@@ -1,5 +1,6 @@
 ﻿@page "/people"
 @inject HttpClient Http
+@using ProjectX.Api.Abstractions
 
 <h1>People</h1>
 
@@ -31,17 +32,10 @@ else
 }
 
 @code {
-    WebPerson[] people;
+    ApiPerson[] people;
 
     protected override async Task OnInitAsync()
     {
-        people = await Http.GetJsonAsync<WebPerson[]>("https://localhost:1001/api/people");
-    }
-
-    class WebPerson
-    {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        people = await Http.GetJsonAsync<ApiPerson[]>("https://localhost:1001/api/people");
     }
 }
