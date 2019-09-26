@@ -3,25 +3,27 @@
     ViewData["Title"] = "People";
 }
 
-<div class="text-center">
-    <h1 class="display-4">People</h1>
+<h1>People</h1>
 
-    @if(Model.People.Any())
-    {
-        <table class="table">
+@if(Model.People.Any())
+{
+    <table class="table">
+        <thead>
             <tr>
                 <th>Id</th>
                 <th>First Name</th>
                 <th>Last Name</th>
             </tr>
-            @foreach(var person in Model.People)
+        </thead>
+        <tbody>
+            @foreach (var person in Model.People)
             {
-                <tr class="clickable" onclick="location.href='@Url.Action("Person", "People", new { id = person.Id })'">
-                    <td>@person.Id</td>
+                <tr>
+                    <td><a asp-controller="People" asp-action="Person" asp-route-id="@person.Id">@person.Id</a></td>
                     <td>@person.FirstName</td>
                     <td>@person.LastName</td>
                 </tr>
             }
-        </table>
-    }
-</div>
+        </tbody>
+    </table>
+}
