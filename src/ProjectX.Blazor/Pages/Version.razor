@@ -1,0 +1,23 @@
+﻿@page "/version"
+@inject HttpClient Http
+@using ProjectX.Api.Abstractions
+
+<h1>Version</h1>
+
+@if (version == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>@version</div>
+}
+
+@code {
+    ApiVersion version;
+
+    protected override async Task OnInitAsync()
+    {
+        version = await Http.GetJsonAsync<ApiVersion>("https://localhost:1001/api/version");
+    }
+}
