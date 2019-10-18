@@ -19,7 +19,7 @@ namespace ProjectX.Mvc.Controllers
             this.versionService = versionService;
         }
 
-        [Route("Version")]
+        [Route("version")]
         public IActionResult Index()
         {
             var version = versionService.Get();

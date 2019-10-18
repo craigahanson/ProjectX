@@ -19,7 +19,7 @@ namespace ProjectX.Mvc.Controllers
             this.peopleService = peopleService;
         }
 
-        [Route("People")]
+        [Route("people")]
         public IActionResult Index()
         {
             var people = peopleService.GetAll();
@@ -35,7 +35,7 @@ namespace ProjectX.Mvc.Controllers
             });
         }
 
-        [Route("People/{id:int}")]
+        [Route("people/{id:int}")]
         public IActionResult Person(int id)
         {
             var person = peopleService.GetById(id);
