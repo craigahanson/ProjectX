@@ -13,8 +13,7 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: DotNetCoreInstaller@0
-  displayName: 'Install .net core 3.0'
+- task: UseDotNet@2
   inputs:
     version: '3.0'
 
