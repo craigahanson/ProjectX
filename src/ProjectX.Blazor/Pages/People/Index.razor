@@ -1,6 +1,6 @@
 ﻿@page "/people"
-@inject HttpClient Http
-@using ProjectX.Api.Abstractions
+
+@inherits ProjectX.Blazor.Pages.People.IndexModel;
 
 <h1>People</h1>
 
@@ -29,13 +29,4 @@ else
             }
         </tbody>
     </table>
-}
-
-@code {
-    private ApiPerson[] people;
-
-    protected override async Task OnInitializedAsync()
-    {
-        people = await Http.GetJsonAsync<ApiPerson[]>("https://localhost:1001/api/people");
-    }
 }

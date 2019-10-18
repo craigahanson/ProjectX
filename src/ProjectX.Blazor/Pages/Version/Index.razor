@@ -1,6 +1,6 @@
 ﻿@page "/version"
-@inject HttpClient Http
-@using ProjectX.Api.Abstractions
+
+@inherits ProjectX.Blazor.Pages.Version.IndexModel;
 
 <h1>Version</h1>
 
@@ -11,13 +11,4 @@
 else
 {
     <div>@version</div>
-}
-
-@code {
-    private ApiVersion version;
-
-    protected override async Task OnInitializedAsync()
-    {
-        version = await Http.GetJsonAsync<ApiVersion>("https://localhost:1001/api/version");
-    }
 }
