@@ -32,10 +32,11 @@ else
 
 @code {
     [Parameter]
-    private int Id { get;set; }
-    ApiPerson person;
+    public int Id { get;set; }
+    
+    private ApiPerson person;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         person = await Http.GetJsonAsync<ApiPerson>("https://localhost:1001/api/people/" + Id);
     }

@@ -32,9 +32,9 @@ else
 }
 
 @code {
-    ApiPerson[] people;
+    private ApiPerson[] people;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         people = await Http.GetJsonAsync<ApiPerson[]>("https://localhost:1001/api/people");
     }

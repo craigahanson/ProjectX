@@ -14,9 +14,9 @@ else
 }
 
 @code {
-    ApiVersion version;
+    private ApiVersion version;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         version = await Http.GetJsonAsync<ApiVersion>("https://localhost:1001/api/version");
     }
