@@ -9,20 +9,31 @@ namespace ProjectX.IdentityServer
 {
     public static class Config
     {
-        public static IEnumerable<IdentityResource> Ids =>
-            new IdentityResource[]
-            { 
-                new IdentityResources.OpenId()
-            };
+        public static IEnumerable<IdentityResource> Ids => new IdentityResource[]
+        { 
+            new IdentityResources.OpenId()
+        };
 
-        public static IEnumerable<ApiResource> Apis =>
-            new ApiResource[] 
+        public static IEnumerable<ApiResource> Apis => new ApiResource[] 
+        {
+            new ApiResource("ProjectX.WebApi", "ProjectX Web Api")
+        };
+        
+        public static IEnumerable<Client> Clients => new Client[] 
+        {
+            new Client
             {
-            };
-        
-        public static IEnumerable<Client> Clients =>
-            new Client[] 
-            { };
-        
+                ClientId = "ProjectX.Blazor",
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientSecrets =
+                {
+                    new Secret("secret".Sha256())
+                },
+                AllowedScopes =
+                {
+                    "ProjectX.WebApi"
+                }
+            }
+        };
     }
 }
