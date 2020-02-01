@@ -1,6 +1,6 @@
 ﻿@page "/people/{Id:int}"
 
-@inherits ProjectX.Blazor.Pages.People.PersonModel;
+@using ProjectX.Api.Abstractions
 
 <h1>Person</h1>
 
@@ -28,4 +28,24 @@ else
             <label readonly class="form-control-plaintext" id="personlastname">@person.LastName</label>
         </div>
     </div>
+}
+
+@code
+{
+    [Parameter]
+    public int Id { get;set; }
+
+    private HttpClient httpClient;
+    public ApiPerson person;
+
+    public Person()
+    {
+        httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri("https://localhost:1001/api/");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        person = await httpClient.GetJsonAsync<ApiPerson>($"people/{Id}");
+    }
 }
