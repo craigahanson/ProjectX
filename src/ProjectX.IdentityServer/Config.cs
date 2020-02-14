@@ -16,14 +16,14 @@ namespace ProjectX.IdentityServer
 
         public static IEnumerable<ApiResource> Apis => new ApiResource[] 
         {
-            new ApiResource("ProjectX.WebApi", "ProjectX Web Api")
+            new ApiResource("projectx.webapi", "ProjectX Web Api")
         };
         
         public static IEnumerable<Client> Clients => new Client[] 
         {
             new Client
             {
-                ClientId = "ProjectX.Blazor",
+                ClientId = "projectx.blazor",
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
                 ClientSecrets =
                 {
@@ -31,7 +31,7 @@ namespace ProjectX.IdentityServer
                 },
                 AllowedScopes =
                 {
-                    "ProjectX.WebApi"
+                    "projectx.webapi"
                 }
             }
         };
