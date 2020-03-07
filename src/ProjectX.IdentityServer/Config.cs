@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-
+using IdentityModel;
+using IdentityServer4.Test;
 using IdentityServer4.Models;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace ProjectX.IdentityServer
 {
@@ -11,12 +13,15 @@ namespace ProjectX.IdentityServer
     {
         public static IEnumerable<IdentityResource> Ids => new IdentityResource[]
         { 
-            new IdentityResources.OpenId()
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile(),
+            new IdentityResources.Email(),
+            new IdentityResource("country", new [] { "country" })
         };
 
         public static IEnumerable<ApiResource> Apis => new ApiResource[] 
         {
-            new ApiResource("projectx.webapi", "ProjectX Web Api")
+            new ApiResource("projectx.webapi", "ProjectX Web Api", new [] { "country" })
         };
         
         public static IEnumerable<Client> Clients => new Client[] 
@@ -24,14 +29,60 @@ namespace ProjectX.IdentityServer
             new Client
             {
                 ClientId = "projectx.blazor",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientName = "ProjectX Blazor",
+                AllowedGrantTypes = GrantTypes.Hybrid,
                 ClientSecrets =
                 {
                     new Secret("secret".Sha256())
                 },
+                RedirectUris =
+                {
+                    "https://localhost:3001/signin-oidc"
+                },
+                PostLogoutRedirectUris = 
+                {
+                    "https://localhost:3001/signout-callback-oidc"
+                },
+                AllowOfflineAccess = true,
                 AllowedScopes =
                 {
+                    "openid",
+                    "profile",
+                    "email",
+                    "country",
                     "projectx.webapi"
+                }
+            }
+        };
+
+        public static List<TestUser> Users => new List<TestUser>
+        {
+            new TestUser
+            {
+                SubjectId = "1da1e4ee-fef9-44d1-99f0-9777ea9a9d66",
+                Username = "Craig",
+                Password = "Welcome123",
+                Claims =
+                {
+                    new Claim(JwtClaimTypes.Name, "Craig Hanson"),
+                    new Claim(JwtClaimTypes.GivenName, "Craig"),
+                    new Claim(JwtClaimTypes.FamilyName, "Hanson"),
+                    new Claim(JwtClaimTypes.Email, "craigahanson@gmail.com"),
+                    new Claim("country", "UK"),
+                }
+            },
+            new TestUser
+            {
+                SubjectId = "8a8b75c4-f657-4f8b-976e-a7549c54863a",
+                Username = "Heather",
+                Password = "Welcome123",
+                Claims =
+                {
+                    new Claim(JwtClaimTypes.Name, "Heather Phillips"),
+                    new Claim(JwtClaimTypes.GivenName, "Heather"),
+                    new Claim(JwtClaimTypes.FamilyName, "Phillips"),
+                    new Claim(JwtClaimTypes.Email, "hl_phillips@hotmail.co.uk"),
+                    new Claim("country", "UK"),
                 }
             }
         };
