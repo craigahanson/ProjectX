@@ -1,0 +1,55 @@
+﻿@page "/people"
+
+@using ProjectX.Api.Abstractions
+@using System.Text.Json
+
+<h1>People</h1>
+
+@if (people == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in people)
+            {
+                <tr>
+                    <td><a href="/people/@person.Id">@person.Id</a></td>
+                    <td>@person.FirstName</td>
+                    <td>@person.LastName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    private HttpClient httpClient;
+    public ApiPerson[] people;
+
+    public Index()
+    {
+        httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri("https://localhost:1001/api/");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetAsync("people");
+
+        response.EnsureSuccessStatusCode();
+
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+        people = await JsonSerializer.DeserializeAsync<ApiPerson[]>(responseStream);
+    }
+}

@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectX.Api.Abstractions\ProjectX.Api.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>
