@@ -1,4 +1,2 @@
-dotnet run --project src/projectx.webapi &
-dotnet run --project src/projectx.mvc &
-dotnet run --project src/projectx.identityserver &
-dotnet run --project src/projectx.blazor --urls='http://0.0.0.0:3000;https://0.0.0.0:3001'
+dotnet run --project src/ProjectX.WebApi &
+dotnet run --project src/ProjectX.BlazorServer
