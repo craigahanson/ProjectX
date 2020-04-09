@@ -2,9 +2,9 @@
 {
 	"name": "ProjectX",
 	"dockerFile": "Dockerfile",
-	"appPort": [1000, 1001, 2000, 2001, 3000, 3001, 4000, 4001],
+	"forwardPorts": [1000, 1001, 2000, 2001, 3000, 3001, 4000, 4001],
 	"extensions": [
-		"ms-vscode.csharp", 
+		"ms-dotnettools.csharp", 
 		"ms-azuretools.vscode-docker"
 	]
 }
