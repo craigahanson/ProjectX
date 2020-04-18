@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.IdentityServer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.BlazorServer", "src\ProjectX.BlazorServer\ProjectX.BlazorServer.csproj", "{6FD12FCE-AC59-4DB9-9213-A9C1BE2F7994}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Blazor2", "src\ProjectX.Blazor2\ProjectX.Blazor2.csproj", "{04CAC986-9807-4655-AB79-3151E6494837}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Blazor", "src\ProjectX.Blazor\ProjectX.Blazor.csproj", "{04CAC986-9807-4655-AB79-3151E6494837}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

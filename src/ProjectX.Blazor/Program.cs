@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ProjectX.Blazor2
+namespace ProjectX.Blazor
 {
     public class Program
     {
