@@ -37,11 +37,11 @@ namespace ProjectX.IdentityServer
                 },
                 RedirectUris =
                 {
-                    "https://localhost:3001/signin-oidc"
+                    "https://localhost:1003/signin-oidc"
                 },
                 PostLogoutRedirectUris = 
                 {
-                    "https://localhost:3001/signout-callback-oidc"
+                    "https://localhost:1003/signout-callback-oidc"
                 },
                 AllowOfflineAccess = true,
                 AllowedScopes =
