@@ -28,6 +28,18 @@ namespace ProjectX.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services
+                .AddMvcCore()
+                .AddAuthorization();
+
+            services
+                .AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "http://localhost:1001";
+                    options.Audience = "projectx.webapi";
+                    options.RequireHttpsMetadata = false;
+                });
 
             UnityConfig.Build(services);
         }
@@ -51,7 +63,9 @@ namespace ProjectX.WebApi
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-            app.UseHttpsRedirection();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();

@@ -18,7 +18,7 @@
     "ProjectX.BlazorServer": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:1004",
+      "applicationUrl": "http://localhost:1004",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

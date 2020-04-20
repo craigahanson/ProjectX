@@ -44,7 +44,6 @@ namespace ProjectX.BlazorServer
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

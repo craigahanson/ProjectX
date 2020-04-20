@@ -28,6 +28,19 @@ namespace ProjectX.IdentityServer
         {
             new Client
             {
+                ClientId = "postman",
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientSecrets = 
+                {
+                    new Secret("secret".Sha256())
+                },
+                AllowedScopes = 
+                {
+                    "projectx.webapi"
+                }
+            },
+            new Client
+            {
                 ClientId = "projectx.blazor",
                 ClientName = "ProjectX Blazor",
                 AllowedGrantTypes = GrantTypes.Hybrid,
@@ -37,11 +50,11 @@ namespace ProjectX.IdentityServer
                 },
                 RedirectUris =
                 {
-                    "https://localhost:1003/signin-oidc"
+                    "http://localhost:1003/signin-oidc"
                 },
                 PostLogoutRedirectUris = 
                 {
-                    "https://localhost:1003/signout-callback-oidc"
+                    "http://localhost:1003/signout-callback-oidc"
                 },
                 AllowOfflineAccess = true,
                 AllowedScopes =
