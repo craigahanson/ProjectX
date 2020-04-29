@@ -44,6 +44,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        people = await httpClient.GetJsonAsync<ApiPerson[]>("people");
+        people = await httpClient.GetFromJsonAsync<ApiPerson[]>("people");
     }
 }
