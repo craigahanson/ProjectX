@@ -17,6 +17,17 @@ namespace ProjectX.Blazor
 
             builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
+            builder.Services.AddOidcAuthentication(options => 
+            {
+                options.ProviderOptions.Authority = "https://localhost:1001";
+                options.ProviderOptions.ClientId = "projectx.blazor";
+                options.ProviderOptions.DefaultScopes.Add("openid");
+                options.ProviderOptions.DefaultScopes.Add("profile");
+                options.ProviderOptions.DefaultScopes.Add("projectx.webapi");
+                options.ProviderOptions.PostLogoutRedirectUri = "https://localhost:1003";
+                options.ProviderOptions.ResponseType = "code";
+            });
+
             await builder.Build().RunAsync();
         }
     }

@@ -30,28 +30,14 @@ namespace ProjectX.IdentityServer
             {
                 ClientId = "projectx.blazor",
                 ClientName = "ProjectX Blazor",
-                AllowedGrantTypes = GrantTypes.Hybrid,
-                ClientSecrets =
-                {
-                    new Secret("secret".Sha256())
-                },
-                RedirectUris =
-                {
-                    "https://localhost:1003/signin-oidc"
-                },
-                PostLogoutRedirectUris = 
-                {
-                    "https://localhost:1003/signout-callback-oidc"
-                },
-                AllowOfflineAccess = true,
-                AllowedScopes =
-                {
-                    "openid",
-                    "profile",
-                    "email",
-                    "country",
-                    "projectx.webapi"
-                }
+                AllowedGrantTypes = GrantTypes.Code,
+                RequirePkce = true,
+                RequireClientSecret = false,
+                AllowedCorsOrigins = { "https://localhost:1003" },
+                AllowedScopes = { "openid", "profile", "email", "country", "projectx.webapi" },
+                RedirectUris = { "https://localhost:1003/authentication/login-callback" },
+                PostLogoutRedirectUris = { "https://localhost:1003" },
+                Enabled = true
             }
         };
 
