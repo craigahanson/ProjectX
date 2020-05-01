@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectX.Api.Abstractions;
 
-namespace ProjectX.WebApi.Controllers
+namespace ProjectX.Rest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

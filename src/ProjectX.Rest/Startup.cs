@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Hosting;
 using ProjectX.Di;
 
-namespace ProjectX.WebApi
+namespace ProjectX.Rest
 {
     public class Startup
     {

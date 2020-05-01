@@ -23,7 +23,7 @@ namespace ProjectX.Blazor
                 options.ProviderOptions.ClientId = "projectx.blazor";
                 options.ProviderOptions.DefaultScopes.Add("openid");
                 options.ProviderOptions.DefaultScopes.Add("profile");
-                options.ProviderOptions.DefaultScopes.Add("projectx.webapi");
+                options.ProviderOptions.DefaultScopes.Add("projectx.rest");
                 options.ProviderOptions.PostLogoutRedirectUri = "https://localhost:1003";
                 options.ProviderOptions.ResponseType = "code";
             });

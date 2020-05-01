@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.WebApi", "src\ProjectX.WebApi\ProjectX.WebApi.csproj", "{9644E4A1-7392-4BE6-B07C-9841EB917227}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Rest", "src\ProjectX.Rest\ProjectX.Rest.csproj", "{9644E4A1-7392-4BE6-B07C-9841EB917227}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Api", "src\ProjectX.Api\ProjectX.Api.csproj", "{E83BBC8B-64A8-4A21-A617-AD1A5D109E56}"
 EndProject

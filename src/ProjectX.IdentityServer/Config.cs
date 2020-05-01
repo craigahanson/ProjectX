@@ -21,7 +21,7 @@ namespace ProjectX.IdentityServer
 
         public static IEnumerable<ApiResource> Apis => new ApiResource[] 
         {
-            new ApiResource("projectx.webapi", "ProjectX Web Api", new [] { "country" })
+            new ApiResource("projectx.rest", "ProjectX Web Api", new [] { "country" })
         };
         
         public static IEnumerable<Client> Clients => new Client[] 
@@ -34,7 +34,7 @@ namespace ProjectX.IdentityServer
                 RequirePkce = true,
                 RequireClientSecret = false,
                 AllowedCorsOrigins = { "https://localhost:1003" },
-                AllowedScopes = { "openid", "profile", "email", "country", "projectx.webapi" },
+                AllowedScopes = { "openid", "profile", "email", "country", "projectx.rest" },
                 RedirectUris = { "https://localhost:1003/authentication/login-callback" },
                 PostLogoutRedirectUris = { "https://localhost:1003" },
                 Enabled = true
