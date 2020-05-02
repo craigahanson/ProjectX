@@ -26,6 +26,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        version = await httpClient.GetJsonAsync<ApiVersion>("version");
+        version = await httpClient.GetFromJsonAsync<ApiVersion>("version");
     }
 }

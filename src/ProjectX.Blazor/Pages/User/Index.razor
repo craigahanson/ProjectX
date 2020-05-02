@@ -1,0 +1,21 @@
+﻿@page "/user"
+@attribute [Authorize]
+
+<AuthorizeView>
+    <Authorized>
+        <h1>User Info</h1>
+        <br>
+        <h3>@context.User.Identity.Name</h3>
+        <table class="table">
+            <tbody>
+            @foreach (var claim in context.User.Claims)
+            {
+                <tr>
+                    <th scope="row">@claim.Type</th>
+                    <td>@claim.Value</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </Authorized>
+</AuthorizeView>

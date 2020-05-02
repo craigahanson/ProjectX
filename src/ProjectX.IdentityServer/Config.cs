@@ -21,7 +21,7 @@ namespace ProjectX.IdentityServer
 
         public static IEnumerable<ApiResource> Apis => new ApiResource[] 
         {
-            new ApiResource("projectx.webapi", "ProjectX Web Api", new [] { "country" })
+            new ApiResource("projectx.rest", "ProjectX Web Api", new [] { "country" })
         };
         
         public static IEnumerable<Client> Clients => new Client[] 
@@ -43,28 +43,14 @@ namespace ProjectX.IdentityServer
             {
                 ClientId = "projectx.blazor",
                 ClientName = "ProjectX Blazor",
-                AllowedGrantTypes = GrantTypes.Hybrid,
-                ClientSecrets =
-                {
-                    new Secret("secret".Sha256())
-                },
-                RedirectUris =
-                {
-                    "http://localhost:1003/signin-oidc"
-                },
-                PostLogoutRedirectUris = 
-                {
-                    "http://localhost:1003/signout-callback-oidc"
-                },
-                AllowOfflineAccess = true,
-                AllowedScopes =
-                {
-                    "openid",
-                    "profile",
-                    "email",
-                    "country",
-                    "projectx.webapi"
-                }
+                AllowedGrantTypes = GrantTypes.Code,
+                RequirePkce = true,
+                RequireClientSecret = false,
+                AllowedCorsOrigins = { "https://localhost:1003" },
+                AllowedScopes = { "openid", "profile", "email", "country", "projectx.rest" },
+                RedirectUris = { "https://localhost:1003/authentication/login-callback" },
+                PostLogoutRedirectUris = { "https://localhost:1003" },
+                Enabled = true
             }
         };
 
