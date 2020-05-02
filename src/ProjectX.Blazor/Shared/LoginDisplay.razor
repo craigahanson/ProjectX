@@ -6,15 +6,15 @@
 
 <AuthorizeView>
     <Authorized>
-        <li class="nav-item">
+        <li class="nav-item ml-auto mr-auto mt-2 mt-sm-0">
             <a class="btn btn-outline-light" href="user">@context.User.Identity.Name</a>
         </li>
-        <li class="nav-item ml-2">
+        <li class="nav-item ml-auto mr-auto mt-2 mt-sm-0 ml-sm-2">
             <a class="btn btn-outline-light" href="#" @onclick="BeginSignOut">Sign out</a>
         </li>
     </Authorized>
     <NotAuthorized>
-        <li class="nav-item">
+        <li class="nav-item ml-auto mr-auto mt-2 mt-sm-0">
             <a class="btn btn-outline-light" href="authentication/login">Sign in</a>
         </li>
     </NotAuthorized>
