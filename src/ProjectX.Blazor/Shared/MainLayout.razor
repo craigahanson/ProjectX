@@ -9,8 +9,14 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light">
-            <div style="height: calc(100vh - 40px);">
+        <div class="col-12 col-sm-3">
+            <button class="btn btn-link collapsed d-sm-none" type="button" data-toggle="collapse" data-target="#left-menu" aria-controls="left-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false">
+                    <title>Menu</title>
+                    <path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path>
+                </svg>
+            </button>
+            <nav class="collapse d-sm-block" id="left-menu">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <NavLink class="nav-link text-dark" href="" Match="NavLinkMatch.All">
@@ -28,9 +34,9 @@
                         </NavLink>
                     </li>
                 </ul>
-            </div>
-        </nav>
-        <main role="main" class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5">
+            </nav>
+        </div>
+        <main role="main" class="col-12 col-sm-9">
             @Body
         </main>
     </div>
