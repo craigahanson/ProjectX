@@ -9,8 +9,8 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-sm-3">
-            <button class="btn btn-link collapsed w-100 mx-auto d-sm-none" type="button" data-toggle="collapse" data-target="#left-menu" aria-controls="left-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="col-12 col-sm-3 col-md-2 col-xl-1">
+            <button class="btn btn-link collapsed d-sm-none" type="button" data-toggle="collapse" data-target="#left-menu" aria-controls="left-menu" aria-expanded="false" aria-label="Toggle navigation">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false">
                     <title>Menu</title>
                     <path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path>
@@ -18,17 +18,17 @@
             </button>
             <nav class="collapse d-sm-block" id="left-menu">
                 <ul class="nav flex-column">
-                    <li class="nav-item mx-auto">
+                    <li class="nav-item">
                         <NavLink class="nav-link text-dark" href="" Match="NavLinkMatch.All">
                             <span class="oi oi-home" aria-hidden="true"></span> Home
                         </NavLink>
                     </li>
-                    <li class="nav-item mx-auto">
+                    <li class="nav-item">
                         <NavLink class="nav-link text-dark" href="people">
                             <span class="oi oi-list-rich" aria-hidden="true"></span> People
                         </NavLink>
                     </li>
-                    <li class="nav-item mx-auto">
+                    <li class="nav-item">
                         <NavLink class="nav-link text-dark" href="version">
                             <span class="oi oi-list-rich" aria-hidden="true"></span> Version
                         </NavLink>
@@ -36,7 +36,7 @@
                 </ul>
             </nav>
         </div>
-        <main role="main" class="col-12 col-sm-9">
+        <main role="main" class="col-12 col-sm-9 col-md-10 col-xs-11">
             @Body
         </main>
     </div>
