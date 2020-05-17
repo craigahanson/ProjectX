@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectX.Api.Abstractions;
 
-namespace ProjectX.WebApi.Controllers
+namespace ProjectX.Rest.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]

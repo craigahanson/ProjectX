@@ -28,19 +28,6 @@ namespace ProjectX.IdentityServer
         {
             new Client
             {
-                ClientId = "postman",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                ClientSecrets = 
-                {
-                    new Secret("secret".Sha256())
-                },
-                AllowedScopes = 
-                {
-                    "projectx.webapi"
-                }
-            },
-            new Client
-            {
                 ClientId = "projectx.blazor",
                 ClientName = "ProjectX Blazor",
                 AllowedGrantTypes = GrantTypes.Code,
