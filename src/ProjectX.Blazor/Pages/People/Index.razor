@@ -2,6 +2,8 @@
 
 @using ProjectX.Api.Abstractions
 
+@inject IHttpClientFactory ClientFactory
+
 <h1>People</h1>
 
 @if (people == null)
@@ -33,17 +35,11 @@ else
 
 @code
 {
-    private HttpClient httpClient;
     public ApiPerson[] people;
-
-    public Index()
-    {
-        httpClient = new HttpClient();
-        httpClient.BaseAddress = new Uri("https://localhost:1002/api/");
-    }
 
     protected override async Task OnInitializedAsync()
     {
+        var httpClient = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         people = await httpClient.GetFromJsonAsync<ApiPerson[]>("people");
     }
 }

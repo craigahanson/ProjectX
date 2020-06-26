@@ -33,11 +33,11 @@ namespace ProjectX.IdentityServer
                 AllowedGrantTypes = GrantTypes.Code,
                 RequirePkce = true,
                 RequireClientSecret = false,
-                AllowedCorsOrigins = { "https://localhost:1003" },
                 AllowedScopes = { "openid", "profile", "email", "country", "projectx.rest" },
                 RedirectUris = { "https://localhost:1003/authentication/login-callback" },
-                PostLogoutRedirectUris = { "https://localhost:1003" },
-                Enabled = true
+                PostLogoutRedirectUris = { "https://localhost:1003/" },
+                AllowedCorsOrigins = { "https://localhost:1003" },
+                AllowAccessTokensViaBrowser = true
             }
         };
 

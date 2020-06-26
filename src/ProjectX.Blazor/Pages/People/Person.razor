@@ -2,6 +2,8 @@
 
 @using ProjectX.Api.Abstractions
 
+@inject IHttpClientFactory ClientFactory
+
 <h1>Person</h1>
 
 @if (person == null)
@@ -35,17 +37,11 @@ else
     [Parameter]
     public int Id { get;set; }
 
-    private HttpClient httpClient;
     public ApiPerson person;
-
-    public Person()
-    {
-        httpClient = new HttpClient();
-        httpClient.BaseAddress = new Uri("https://localhost:1002/api/");
-    }
 
     protected override async Task OnInitializedAsync()
     {
+        var httpClient = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         person = await httpClient.GetFromJsonAsync<ApiPerson>($"people/{Id}");
     }
 }

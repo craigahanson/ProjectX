@@ -1,0 +1,40 @@
+﻿@page "/versionauthenticated"
+@attribute [Authorize]
+
+@using ProjectX.Api.Abstractions
+@using System.Net.Http.Headers
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject IHttpClientFactory ClientFactory
+@inject IAccessTokenProvider TokenProvider
+
+<h1>Version Authenticated</h1>
+
+@if (version == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>@version</div>
+}
+
+@code
+{
+    public ApiVersion version;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var tokenResult = await TokenProvider.RequestAccessToken(new AccessTokenRequestOptions
+        {
+            Scopes = new[] { "projectx.rest" }
+        });
+
+        if(tokenResult.TryGetToken(out var token))
+        {
+            var httpClient = ClientFactory.CreateClient("ServerAPI.AuthenticationClient");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+            version = await httpClient.GetFromJsonAsync<ApiVersion>("versionauthenticated");
+        }
+    }
+}

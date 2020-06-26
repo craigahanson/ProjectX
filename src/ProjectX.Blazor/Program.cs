@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace ProjectX.Blazor
 {
@@ -15,7 +16,11 @@ namespace ProjectX.Blazor
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddHttpClient("ServerAPI.AuthenticationClient", client => client.BaseAddress = new Uri("https://localhost:1002/api/"))
+                            .AddHttpMessageHandler(sp => sp.GetRequiredService<AuthorizationMessageHandler>()
+                                                           .ConfigureHandler(new [] { "https://localhost:1001" }, scopes: new[] { "opendid", "profile", "projectx.rest" }));
+
+            builder.Services.AddHttpClient("ServerAPI.NoAuthenticationClient", client => client.BaseAddress = new Uri("https://localhost:1002/api/"));
 
             builder.Services.AddOidcAuthentication(options => 
             {
