@@ -34,9 +34,9 @@ namespace ProjectX.IdentityServer
                 RequirePkce = true,
                 RequireClientSecret = false,
                 AllowedScopes = { "openid", "profile", "email", "country", "projectx.rest" },
-                RedirectUris = { "https://localhost:1003/authentication/login-callback" },
-                PostLogoutRedirectUris = { "https://localhost:1003/" },
-                AllowedCorsOrigins = { "https://localhost:1003" },
+                RedirectUris = { "http://localhost:1003/authentication/login-callback" },
+                PostLogoutRedirectUris = { "http://localhost:1003/" },
+                AllowedCorsOrigins = { "http://localhost:1003" },
                 AllowAccessTokensViaBrowser = true
             }
         };

@@ -36,7 +36,7 @@ namespace ProjectX.Rest
                 .AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://localhost:1001";
+                    options.Authority = "http://localhost:1001";
                     options.Audience = "projectx.rest";
                     options.RequireHttpsMetadata = false;
                 });

@@ -4,7 +4,7 @@
     "windowsAuthentication": false, 
     "anonymousAuthentication": true, 
     "iisExpress": {
-      "applicationUrl": "https://localhost:1002",
+      "applicationUrl": "http://localhost:1002",
       "sslPort": 44306
     }
   },
@@ -21,7 +21,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
-      "applicationUrl": "https://localhost:1002",
+      "applicationUrl": "http://localhost:1002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
