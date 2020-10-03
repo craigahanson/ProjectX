@@ -10,4 +10,4 @@ New project for developing a .net core ecosystem within a docker container
   - dotnet run --project src/ProjectX.Rest
 
 - Blazor - runs on port 1003
-  - dotnet run --project src/ProjectX.Blazor - runs on port 1003
+  - dotnet run --project src/ProjectX.Blazor
