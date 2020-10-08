@@ -21,7 +21,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var httpClient = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        var httpClient = ClientFactory.CreateClient("HttpClientNoAuth");
         version = await httpClient.GetFromJsonAsync<ApiVersion>("version");
     }
 }

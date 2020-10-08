@@ -32,7 +32,7 @@ else
 
         if(tokenResult.TryGetToken(out var token))
         {
-            var httpClient = ClientFactory.CreateClient("ServerAPI.AuthenticationClient");
+            var httpClient = ClientFactory.CreateClient("HttpClient");
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
             version = await httpClient.GetFromJsonAsync<ApiVersion>("versionauthenticated");
         }

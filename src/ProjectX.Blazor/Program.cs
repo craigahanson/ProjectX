@@ -16,11 +16,11 @@ namespace ProjectX.Blazor
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddHttpClient("ServerAPI.AuthenticationClient", client => client.BaseAddress = new Uri("http://localhost:1002/api/"))
+            builder.Services.AddHttpClient("HttpClient", client => client.BaseAddress = new Uri("http://localhost:1002/api/"))
                             .AddHttpMessageHandler(sp => sp.GetRequiredService<AuthorizationMessageHandler>()
                                                            .ConfigureHandler(new [] { "http://localhost:1001" }, scopes: new[] { "opendid", "profile", "projectx.rest" }));
 
-            builder.Services.AddHttpClient("ServerAPI.NoAuthenticationClient", client => client.BaseAddress = new Uri("http://localhost:1002/api/"));
+            builder.Services.AddHttpClient("HttpClientNoAuth", client => client.BaseAddress = new Uri("http://localhost:1002/api/"));
 
             builder.Services.AddOidcAuthentication(options => 
             {

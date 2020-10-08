@@ -39,7 +39,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var httpClient = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        var httpClient = ClientFactory.CreateClient("HttpClientNoAuth");
         people = await httpClient.GetFromJsonAsync<ApiPerson[]>("people");
     }
 }
