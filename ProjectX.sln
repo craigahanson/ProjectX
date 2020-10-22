@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.IdentityServer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Blazor", "src\ProjectX.Blazor\ProjectX.Blazor.csproj", "{04CAC986-9807-4655-AB79-3151E6494837}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0D26C6D2-155E-459B-A1F3-CEBFDA8673FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Blazor.Tests", "tests\ProjectX.Blazor.Tests\ProjectX.Blazor.Tests.csproj", "{20B31D56-D88B-40C7-960D-49CBB8636915}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,9 +120,22 @@ Global
 		{04CAC986-9807-4655-AB79-3151E6494837}.Release|x64.Build.0 = Release|Any CPU
 		{04CAC986-9807-4655-AB79-3151E6494837}.Release|x86.ActiveCfg = Release|Any CPU
 		{04CAC986-9807-4655-AB79-3151E6494837}.Release|x86.Build.0 = Release|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Debug|x64.Build.0 = Debug|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Debug|x86.Build.0 = Debug|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Release|x64.ActiveCfg = Release|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Release|x64.Build.0 = Release|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Release|x86.ActiveCfg = Release|Any CPU
+		{20B31D56-D88B-40C7-960D-49CBB8636915}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{710463E8-D0B8-44D9-B2D5-130282CCB272} = {D0C8F791-6552-4FFC-8577-4F52A661C040}
 		{04CAC986-9807-4655-AB79-3151E6494837} = {D0C8F791-6552-4FFC-8577-4F52A661C040}
+		{20B31D56-D88B-40C7-960D-49CBB8636915} = {0D26C6D2-155E-459B-A1F3-CEBFDA8673FF}
 	EndGlobalSection
 EndGlobal
