@@ -2,7 +2,7 @@
 
 @using ProjectX.Api.Abstractions
 
-@inject IHttpClientFactory ClientFactory
+@inject Services.IPeopleService PeopleService
 
 <h1>Person</h1>
 
@@ -41,7 +41,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var httpClient = ClientFactory.CreateClient("HttpClientNoAuth");
-        person = await httpClient.GetFromJsonAsync<ApiPerson>($"people/{Id}");
+        person = await PeopleService.GetAsync(Id);
     }
 }

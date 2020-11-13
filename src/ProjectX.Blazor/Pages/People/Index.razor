@@ -2,7 +2,7 @@
 
 @using ProjectX.Api.Abstractions
 
-@inject IHttpClientFactory ClientFactory
+@inject Services.IPeopleService PeopleService
 
 <h1>People</h1>
 
@@ -35,11 +35,10 @@ else
 
 @code
 {
-    public ApiPerson[] people;
+    public IEnumerable<ApiPerson> people;
 
     protected override async Task OnInitializedAsync()
     {
-        var httpClient = ClientFactory.CreateClient("HttpClientNoAuth");
-        people = await httpClient.GetFromJsonAsync<ApiPerson[]>("people");
+        people = await PeopleService.GetAllAsync();
     }
 }

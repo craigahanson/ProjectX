@@ -2,7 +2,7 @@
 
 @using ProjectX.Api.Abstractions
 
-@inject IHttpClientFactory ClientFactory
+@inject Services.IVersionService VersionService
 
 <h1>Version</h1>
 
@@ -21,7 +21,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var httpClient = ClientFactory.CreateClient("HttpClientNoAuth");
-        version = await httpClient.GetFromJsonAsync<ApiVersion>("version");
+        version = await VersionService.GetAsync();
     }
 }
