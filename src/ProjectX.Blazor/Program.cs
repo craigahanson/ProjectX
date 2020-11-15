@@ -33,8 +33,8 @@ namespace ProjectX.Blazor
                 options.ProviderOptions.ResponseType = "code";
             });
 
-            builder.Services.AddSingleton<Services.IVersionService, Services.VersionService>();
-            builder.Services.AddSingleton<Services.IPeopleService, Services.PeopleService>();
+            builder.Services.AddScoped<Services.IVersionService, Services.VersionService>();
+            builder.Services.AddScoped<Services.IPeopleService, Services.PeopleService>();
 
             await builder.Build().RunAsync();
         }
