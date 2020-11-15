@@ -18,7 +18,7 @@ namespace ProjectX.Blazor
 
             builder.Services.AddHttpClient("HttpClient", client => client.BaseAddress = new Uri("http://localhost:1002/api/"))
                             .AddHttpMessageHandler(sp => sp.GetRequiredService<AuthorizationMessageHandler>()
-                                                           .ConfigureHandler(new [] { "http://localhost:1001" }, scopes: new[] { "opendid", "profile", "projectx.rest" }));
+                                .ConfigureHandler(new [] { "http://localhost:1001" }, scopes: new[] { "opendid", "profile", "projectx.rest" }));
 
             builder.Services.AddHttpClient("HttpClientNoAuth", client => client.BaseAddress = new Uri("http://localhost:1002/api/"));
 
@@ -32,6 +32,9 @@ namespace ProjectX.Blazor
                 options.ProviderOptions.PostLogoutRedirectUri = "http://localhost:1003";
                 options.ProviderOptions.ResponseType = "code";
             });
+
+            builder.Services.AddSingleton<Services.IVersionService, Services.VersionService>();
+            builder.Services.AddSingleton<Services.IPeopleService, Services.PeopleService>();
 
             await builder.Build().RunAsync();
         }
