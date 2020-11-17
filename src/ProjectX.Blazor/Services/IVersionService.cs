@@ -8,5 +8,6 @@ namespace ProjectX.Blazor.Services
     public interface IVersionService
     {
         Task<ApiVersion> GetAsync();
+        Task<ApiVersion> GetAuthenticatedAsync();
     }
 }

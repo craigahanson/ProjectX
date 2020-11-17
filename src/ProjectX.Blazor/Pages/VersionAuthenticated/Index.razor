@@ -2,11 +2,8 @@
 @attribute [Authorize]
 
 @using ProjectX.Api.Abstractions
-@using System.Net.Http.Headers
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
-@inject IHttpClientFactory ClientFactory
-@inject IAccessTokenProvider TokenProvider
+@inject Services.IVersionService VersionService
 
 <h1>Version Authenticated</h1>
 
@@ -25,16 +22,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var tokenResult = await TokenProvider.RequestAccessToken(new AccessTokenRequestOptions
-        {
-            Scopes = new[] { "projectx.rest" }
-        });
-
-        if(tokenResult.TryGetToken(out var token))
-        {
-            var httpClient = ClientFactory.CreateClient("HttpClient");
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
-            version = await httpClient.GetFromJsonAsync<ApiVersion>("versionauthenticated");
-        }
+       version = await VersionService.GetAuthenticatedAsync();
     }
 }
