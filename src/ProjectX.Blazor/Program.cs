@@ -16,20 +16,20 @@ namespace ProjectX.Blazor
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddHttpClient("HttpClient", client => client.BaseAddress = new Uri("http://localhost:1002/api/"))
+            builder.Services.AddHttpClient("HttpClient", client => client.BaseAddress = new Uri("https://localhost:1002/api/"))
                             .AddHttpMessageHandler(sp => sp.GetRequiredService<AuthorizationMessageHandler>()
-                                .ConfigureHandler(new [] { "http://localhost:1001" }, scopes: new[] { "opendid", "profile", "projectx.rest" }));
+                                .ConfigureHandler(new [] { "https://localhost:1001" }, scopes: new[] { "opendid", "profile", "projectx.rest" }));
 
-            builder.Services.AddHttpClient("HttpClientNoAuth", client => client.BaseAddress = new Uri("http://localhost:1002/api/"));
+            builder.Services.AddHttpClient("HttpClientNoAuth", client => client.BaseAddress = new Uri("https://localhost:1002/api/"));
 
             builder.Services.AddOidcAuthentication(options => 
             {
-                options.ProviderOptions.Authority = "http://localhost:1001";
+                options.ProviderOptions.Authority = "https://localhost:1001";
                 options.ProviderOptions.ClientId = "projectx.blazor";
                 options.ProviderOptions.DefaultScopes.Add("openid");
                 options.ProviderOptions.DefaultScopes.Add("profile");
                 options.ProviderOptions.DefaultScopes.Add("projectx.rest");
-                options.ProviderOptions.PostLogoutRedirectUri = "http://localhost:1003";
+                options.ProviderOptions.PostLogoutRedirectUri = "https://localhost:1003";
                 options.ProviderOptions.ResponseType = "code";
             });
 
