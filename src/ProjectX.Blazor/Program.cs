@@ -14,7 +14,7 @@ namespace ProjectX.Blazor
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
+            builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddHttpClient("HttpClient", client => client.BaseAddress = new Uri("https://localhost:1002/api/"))
                             .AddHttpMessageHandler(sp => sp.GetRequiredService<AuthorizationMessageHandler>()
