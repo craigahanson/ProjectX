@@ -1,29 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Rest", "src\ProjectX.Rest\ProjectX.Rest.csproj", "{9644E4A1-7392-4BE6-B07C-9841EB917227}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.Rest", "src\ProjectX.Rest\ProjectX.Rest.csproj", "{9644E4A1-7392-4BE6-B07C-9841EB917227}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Api", "src\ProjectX.Api\ProjectX.Api.csproj", "{E83BBC8B-64A8-4A21-A617-AD1A5D109E56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.Api", "src\ProjectX.Api\ProjectX.Api.csproj", "{E83BBC8B-64A8-4A21-A617-AD1A5D109E56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Api.Abstractions", "src\ProjectX.Api.Abstractions\ProjectX.Api.Abstractions.csproj", "{81570500-C39A-414F-9AE1-8F25153A5162}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.Api.Abstractions", "src\ProjectX.Api.Abstractions\ProjectX.Api.Abstractions.csproj", "{81570500-C39A-414F-9AE1-8F25153A5162}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Api.Tests", "tests\ProjectX.Api.Tests\ProjectX.Api.Tests.csproj", "{BED58FE0-2B39-4B34-9135-64C832FCC273}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.Api.Tests", "tests\ProjectX.Api.Tests\ProjectX.Api.Tests.csproj", "{BED58FE0-2B39-4B34-9135-64C832FCC273}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Di", "src\ProjectX.Di\ProjectX.Di.csproj", "{828B1976-4287-4704-B9EB-DF131A71140D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.Di", "src\ProjectX.Di\ProjectX.Di.csproj", "{828B1976-4287-4704-B9EB-DF131A71140D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D0C8F791-6552-4FFC-8577-4F52A661C040}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.IdentityServer", "src\ProjectX.IdentityServer\ProjectX.IdentityServer.csproj", "{710463E8-D0B8-44D9-B2D5-130282CCB272}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.IdentityServer", "src\ProjectX.IdentityServer\ProjectX.IdentityServer.csproj", "{710463E8-D0B8-44D9-B2D5-130282CCB272}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Blazor", "src\ProjectX.Blazor\ProjectX.Blazor.csproj", "{04CAC986-9807-4655-AB79-3151E6494837}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.Blazor", "src\ProjectX.Blazor\ProjectX.Blazor.csproj", "{04CAC986-9807-4655-AB79-3151E6494837}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0D26C6D2-155E-459B-A1F3-CEBFDA8673FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Blazor.Tests", "tests\ProjectX.Blazor.Tests\ProjectX.Blazor.Tests.csproj", "{20B31D56-D88B-40C7-960D-49CBB8636915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.Blazor.Tests", "tests\ProjectX.Blazor.Tests\ProjectX.Blazor.Tests.csproj", "{20B31D56-D88B-40C7-960D-49CBB8636915}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Rest.Tests", "tests\ProjectX.Rest.Tests\ProjectX.Rest.Tests.csproj", "{56504A35-A04B-4186-BB71-1B5438617B94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.Rest.Tests", "tests\ProjectX.Rest.Tests\ProjectX.Rest.Tests.csproj", "{56504A35-A04B-4186-BB71-1B5438617B94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +33,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9644E4A1-7392-4BE6-B07C-9841EB917227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -147,10 +144,21 @@ Global
 		{56504A35-A04B-4186-BB71-1B5438617B94}.Release|x86.ActiveCfg = Release|Any CPU
 		{56504A35-A04B-4186-BB71-1B5438617B94}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{9644E4A1-7392-4BE6-B07C-9841EB917227} = {D0C8F791-6552-4FFC-8577-4F52A661C040}
+		{E83BBC8B-64A8-4A21-A617-AD1A5D109E56} = {D0C8F791-6552-4FFC-8577-4F52A661C040}
+		{81570500-C39A-414F-9AE1-8F25153A5162} = {D0C8F791-6552-4FFC-8577-4F52A661C040}
+		{BED58FE0-2B39-4B34-9135-64C832FCC273} = {0D26C6D2-155E-459B-A1F3-CEBFDA8673FF}
+		{828B1976-4287-4704-B9EB-DF131A71140D} = {D0C8F791-6552-4FFC-8577-4F52A661C040}
 		{710463E8-D0B8-44D9-B2D5-130282CCB272} = {D0C8F791-6552-4FFC-8577-4F52A661C040}
 		{04CAC986-9807-4655-AB79-3151E6494837} = {D0C8F791-6552-4FFC-8577-4F52A661C040}
 		{20B31D56-D88B-40C7-960D-49CBB8636915} = {0D26C6D2-155E-459B-A1F3-CEBFDA8673FF}
 		{56504A35-A04B-4186-BB71-1B5438617B94} = {0D26C6D2-155E-459B-A1F3-CEBFDA8673FF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CF2D68B1-5A40-4230-8FBB-B0881A4DA330}
 	EndGlobalSection
 EndGlobal
