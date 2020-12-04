@@ -3,8 +3,8 @@
     "ProjectX.Rest": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/values",
-      "applicationUrl": "http://localhost:1002",
+      "launchUrl": "api/version",
+      "applicationUrl": "https://localhost:1002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

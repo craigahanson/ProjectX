@@ -6,17 +6,19 @@
 
 <AuthorizeView>
     <Authorized>
-        <li class="nav-item">
-            <a class="btn btn-outline-light" href="user">@context.User.Identity.Name</a>
-        </li>
-        <li class="nav-item ml-2">
-            <a class="btn btn-outline-light" href="#" @onclick="BeginSignOut">Sign out</a>
-        </li>
+        <div class="btn-group ml-auto">
+            <button type="button" class="btn btn-primary">
+                <i class="fa fa-user mr-2"></i>@context.User.Identity.Name
+            </button>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="user"><i class="fa fa-user mr-2"></i>User Details</a>
+                <a class="dropdown-item" href="#" @onclick="BeginSignOut"><i class="fa fa-sign-out mr-2"></i>Sign out</a>
+            </div>
+        </div>
     </Authorized>
     <NotAuthorized>
-        <li class="nav-item">
-            <a class="btn btn-outline-light" href="authentication/login">Sign in</a>
-        </li>
+        <a class="btn btn-outline-light ml-auto" href="authentication/login">Sign in</a>
     </NotAuthorized>
 </AuthorizeView>
 
