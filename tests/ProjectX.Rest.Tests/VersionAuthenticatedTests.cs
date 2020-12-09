@@ -15,13 +15,23 @@ using ProjectX.Api.Abstractions;
 
 namespace ProjectX.Rest.Tests
 {
-    public class VersionTests : TestBase
+    public class VersionAuthenticatedTests : TestBase
     {
         [Test]
-        public async Task Get_ReturnsVersion()
+        public async Task Get_ReturnsUnauthorized_WhenNotLoggedIn()
         {
             //Act
-            var response = await HttpClientNoAuth.GetAsync("api/version");
+            var response = await HttpClientNoAuth.GetAsync("api/versionauthenticated");
+
+            //Assert
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
+        }
+
+        [Test]
+        public async Task Get_ReturnsVersion_WhenAuthenticated()
+        {
+            //Act
+            var response = await HttpClientAuthenticated.GetAsync("api/versionauthenticated");
 
             //Assert
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
