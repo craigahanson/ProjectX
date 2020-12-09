@@ -34,7 +34,6 @@ namespace ProjectX.Blazor
             });
 
             builder.Services.AddScoped<Services.IVersionService, Services.VersionService>();
-            builder.Services.AddScoped<Services.IPeopleService, Services.PeopleService>();
 
             await builder.Build().RunAsync();
         }
