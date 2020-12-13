@@ -2,8 +2,7 @@
   "profiles": {
     "ProjectX.Rest": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/version",
+      "launchBrowser": false,
       "applicationUrl": "https://localhost:1002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
