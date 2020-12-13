@@ -28,16 +28,30 @@ namespace ProjectX.IdentityServer
         {
             new Client
             {
+                Enabled = true,
+                ClientName = "Postman",
+                ClientId = "projectx.postman",
+                RequireClientSecret = false,
+                AllowedScopes = { "openid", "profile", "email", "country", "projectx.rest" },
+                RedirectUris = { "https://www.getpostman.com/oauth2/callback" },
+                PostLogoutRedirectUris = { "https://www.getpostman.com/oauth2/signout" },
+                AllowedGrantTypes = { GrantType.ResourceOwnerPassword },
+                AllowOfflineAccess = true,
+                ClientUri = null
+            },
+            new Client
+            {
+                Enabled = true,
+                ClientName = "Blazor",
                 ClientId = "projectx.blazor",
-                ClientName = "ProjectX Blazor",
-                AllowedGrantTypes = GrantTypes.Code,
-                RequirePkce = true,
                 RequireClientSecret = false,
                 AllowedScopes = { "openid", "profile", "email", "country", "projectx.rest" },
                 RedirectUris = { "https://localhost:1003/authentication/login-callback" },
                 PostLogoutRedirectUris = { "https://localhost:1003/" },
-                AllowedCorsOrigins = { "https://localhost:1003" },
-                AllowAccessTokensViaBrowser = true
+                AllowedGrantTypes = { GrantType.AuthorizationCode },
+                AllowOfflineAccess = true,
+                ClientUri = null,
+                AllowedCorsOrigins = { "https://localhost:1003" }
             }
         };
 
