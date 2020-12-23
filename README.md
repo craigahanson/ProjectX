@@ -15,3 +15,7 @@ dotnet dev-certs https --trust
 
 ### Debug Blazor Web Assembly
 chrome --remote-debugging-port=9222 --user-data-dir="C:\Users\craig\AppData\Local\Temp\blazor-chrome-debug" https://localhost:1003/version
+
+### Entity Framework Scope sources
+https://mehdi.me/ambient-dbcontext-in-ef6/
+https://github.com/mehdime/DbContextScope
