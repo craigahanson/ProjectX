@@ -3,14 +3,15 @@ New project for developing a .net core ecosystem within a docker container
 
 [![Build Status](https://dev.azure.com/CraigHanson/ProjectX/_apis/build/status/craigahanson.ProjectX?branchName=master)](https://dev.azure.com/CraigHanson/ProjectX/_build/latest?definitionId=1&branchName=master)
 
-- IdentityServer - runs on port 1001
-  - dotnet run watch --project src/ProjectX.IdentityServer
+### Run Apps
+||Port|Command|
+|-|-|-|
+|ProjectX.IdentityServer|1001|dotnet run watch --project src/ProjectX.IdentityServer|
+|ProjectX.Rest|1002|dotnet run watch --project src/ProjectX.Rest|
+|ProjectX.Blazor|1003|dotnet run watch --project src/ProjectX.Blazor|
 
-- Rest - runs on port 1002
-  - dotnet run watch --project src/ProjectX.Rest
+###  Trust Dev Certificate
+dotnet dev-certs https --trust
 
-- Blazor - runs on port 1003
-  - dotnet run watch --project src/ProjectX.Blazor
-
-  Trust Dev Certificate
-  - dotnet dev-certs https --trust
+### Debug Blazor Web Assembly
+chrome --remote-debugging-port=9222 --user-data-dir="C:\Users\craig\AppData\Local\Temp\blazor-chrome-debug" https://localhost:1003/version
