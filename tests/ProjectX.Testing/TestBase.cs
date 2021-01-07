@@ -15,7 +15,7 @@ namespace ProjectX.Testing
 
         public DbContextScopeFactory CreateDbContextScopeFactory()
         {
-            return new(new DbContextFactory(DbConnectionString, DbCommandTimeout));
+            return new DbContextScopeFactory(new DbContextFactory(DbConnectionString, DbCommandTimeout));
         }
 
         [SetUp]

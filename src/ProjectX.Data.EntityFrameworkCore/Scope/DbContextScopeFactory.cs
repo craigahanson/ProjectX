@@ -24,35 +24,35 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
         public IDbContextScope Create(DbContextScopeOption joiningOption = DbContextScopeOption.JoinExisting)
         {
             return new DbContextScope(
-                joiningOption: joiningOption,
-                readOnly: false,
-                isolationLevel: null,
-                dbContextFactory: _dbContextFactory);
+                joiningOption,
+                false,
+                null,
+                _dbContextFactory);
         }
 
         public IDbContextReadOnlyScope CreateReadOnly(DbContextScopeOption joiningOption = DbContextScopeOption.JoinExisting)
         {
             return new DbContextReadOnlyScope(
-                joiningOption: joiningOption,
-                isolationLevel: null,
-                dbContextFactory: _dbContextFactory);
+                joiningOption,
+                null,
+                _dbContextFactory);
         }
 
         public IDbContextScope CreateWithTransaction(IsolationLevel isolationLevel)
         {
             return new DbContextScope(
-                joiningOption: DbContextScopeOption.ForceCreateNew,
-                readOnly: false,
-                isolationLevel: isolationLevel,
-                dbContextFactory: _dbContextFactory);
+                DbContextScopeOption.ForceCreateNew,
+                false,
+                isolationLevel,
+                _dbContextFactory);
         }
 
         public IDbContextReadOnlyScope CreateReadOnlyWithTransaction(IsolationLevel isolationLevel)
         {
             return new DbContextReadOnlyScope(
-                joiningOption: DbContextScopeOption.ForceCreateNew,
-                isolationLevel: isolationLevel,
-                dbContextFactory: _dbContextFactory);
+                DbContextScopeOption.ForceCreateNew,
+                isolationLevel,
+                _dbContextFactory);
         }
 
         public IDisposable SuppressAmbientContext()

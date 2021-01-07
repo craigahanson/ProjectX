@@ -1,9 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using ProjectX.Api;
 
@@ -11,8 +9,8 @@ namespace ProjectX.Blazor.Services
 {
     public class BlazorVersionService : IBlazorVersionService
     {
-        private readonly IHttpClientFactory httpClientFactory;
         private readonly IAccessTokenProvider accessTokenProvider;
+        private readonly IHttpClientFactory httpClientFactory;
 
         public BlazorVersionService(IHttpClientFactory httpClientFactory, IAccessTokenProvider accessTokenProvider)
         {
@@ -33,13 +31,13 @@ namespace ProjectX.Blazor.Services
                 Scopes = new[] { "projectx.rest" }
             });
 
-            if(tokenResult.TryGetToken(out var token))
+            if (tokenResult.TryGetToken(out var token))
             {
                 var httpClient = httpClientFactory.CreateClient("HttpClient");
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
                 return await httpClient.GetFromJsonAsync<ApiVersion>("versionauthenticated");
             }
-            
+
             return null;
         }
     }

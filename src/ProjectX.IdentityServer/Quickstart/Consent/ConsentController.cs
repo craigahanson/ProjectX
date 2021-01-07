@@ -2,31 +2,32 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Linq;
+using System.Threading.Tasks;
+using IdentityServer4;
 using IdentityServer4.Events;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
-using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProjectX.identityserver
 {
     /// <summary>
-    /// This controller processes the consent UI
+    ///     This controller processes the consent UI
     /// </summary>
     [SecurityHeaders]
     [Authorize]
     public class ConsentController : Controller
     {
-        private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
-        private readonly IResourceStore _resourceStore;
         private readonly IEventService _events;
+        private readonly IIdentityServerInteractionService _interaction;
         private readonly ILogger<ConsentController> _logger;
+        private readonly IResourceStore _resourceStore;
 
         public ConsentController(
             IIdentityServerInteractionService interaction,
@@ -43,7 +44,7 @@ namespace ProjectX.identityserver
         }
 
         /// <summary>
-        /// Shows the consent screen
+        ///     Shows the consent screen
         /// </summary>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
@@ -51,16 +52,13 @@ namespace ProjectX.identityserver
         public async Task<IActionResult> Index(string returnUrl)
         {
             var vm = await BuildViewModelAsync(returnUrl);
-            if (vm != null)
-            {
-                return View("Index", vm);
-            }
+            if (vm != null) return View("Index", vm);
 
             return View("Error");
         }
 
         /// <summary>
-        /// Handles the consent screen postback
+        ///     Handles the consent screen postback
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -71,24 +69,16 @@ namespace ProjectX.identityserver
             if (result.IsRedirect)
             {
                 if (await _clientStore.IsPkceClientAsync(result.ClientId))
-                {
                     // if the client is PKCE then we assume it's native, so this change in how to
                     // return the response is for better UX for the end user.
                     return this.LoadingPage("Redirect", result.RedirectUri);
-                }
 
                 return Redirect(result.RedirectUri);
             }
 
-            if (result.HasValidationError)
-            {
-                ModelState.AddModelError(string.Empty, result.ValidationError);
-            }
+            if (result.HasValidationError) ModelState.AddModelError(string.Empty, result.ValidationError);
 
-            if (result.ShowView)
-            {
-                return View("Index", result.ViewModel);
-            }
+            if (result.ShowView) return View("Index", result.ViewModel);
 
             return View("Error");
         }
@@ -121,10 +111,7 @@ namespace ProjectX.identityserver
                 if (model.ScopesConsented != null && model.ScopesConsented.Any())
                 {
                     var scopes = model.ScopesConsented;
-                    if (ConsentOptions.EnableOfflineAccess == false)
-                    {
-                        scopes = scopes.Where(x => x != IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess);
-                    }
+                    if (ConsentOptions.EnableOfflineAccess == false) scopes = scopes.Where(x => x != IdentityServerConstants.StandardScopes.OfflineAccess);
 
                     grantedConsent = new ConsentResponse
                     {
@@ -173,13 +160,8 @@ namespace ProjectX.identityserver
                 {
                     var resources = await _resourceStore.FindEnabledResourcesByScopeAsync(request.ScopesRequested);
                     if (resources != null && (resources.IdentityResources.Any() || resources.ApiResources.Any()))
-                    {
                         return CreateConsentViewModel(model, returnUrl, request, client, resources);
-                    }
-                    else
-                    {
-                        _logger.LogError("No scopes matching: {0}", request.ScopesRequested.Aggregate((x, y) => x + ", " + y));
-                    }
+                    _logger.LogError("No scopes matching: {0}", request.ScopesRequested.Aggregate((x, y) => x + ", " + y));
                 }
                 else
                 {
@@ -215,18 +197,17 @@ namespace ProjectX.identityserver
             vm.IdentityScopes = resources.IdentityResources.Select(x => CreateScopeViewModel(x, vm.ScopesConsented.Contains(x.Name) || model == null)).ToArray();
             vm.ResourceScopes = resources.ApiResources.SelectMany(x => x.Scopes).Select(x => CreateScopeViewModel(x, vm.ScopesConsented.Contains(x.Name) || model == null)).ToArray();
             if (ConsentOptions.EnableOfflineAccess && resources.OfflineAccess)
-            {
-                vm.ResourceScopes = vm.ResourceScopes.Union(new ScopeViewModel[] {
-                    GetOfflineAccessScope(vm.ScopesConsented.Contains(IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess) || model == null)
+                vm.ResourceScopes = vm.ResourceScopes.Union(new[]
+                {
+                    GetOfflineAccessScope(vm.ScopesConsented.Contains(IdentityServerConstants.StandardScopes.OfflineAccess) || model == null)
                 });
-            }
 
             return vm;
         }
 
         private ScopeViewModel CreateScopeViewModel(IdentityResource identity, bool check)
         {
-            return new ScopeViewModel
+            return new ScopeViewModel()
             {
                 Name = identity.Name,
                 DisplayName = identity.DisplayName,
@@ -239,7 +220,7 @@ namespace ProjectX.identityserver
 
         public ScopeViewModel CreateScopeViewModel(Scope scope, bool check)
         {
-            return new ScopeViewModel
+            return new ScopeViewModel()
             {
                 Name = scope.Name,
                 DisplayName = scope.DisplayName,
@@ -252,9 +233,9 @@ namespace ProjectX.identityserver
 
         private ScopeViewModel GetOfflineAccessScope(bool check)
         {
-            return new ScopeViewModel
+            return new ScopeViewModel()
             {
-                Name = IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
+                Name = IdentityServerConstants.StandardScopes.OfflineAccess,
                 DisplayName = ConsentOptions.OfflineAccessDisplayName,
                 Description = ConsentOptions.OfflineAccessDescription,
                 Emphasize = true,

@@ -12,8 +12,8 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
 {
     public class AmbientContextSuppressor : IDisposable
     {
-        private DbContextScope _savedScope;
         private bool _disposed;
+        private DbContextScope _savedScope;
 
         public AmbientContextSuppressor()
         {

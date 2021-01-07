@@ -1,6 +1,6 @@
+using Bunit;
 using NUnit.Framework;
 using ProjectX.Blazor.Pages.Home;
-using Bunit;
 
 namespace ProjectX.Blazor.Tests.Pages.Home
 {

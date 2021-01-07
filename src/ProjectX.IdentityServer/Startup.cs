@@ -11,12 +11,12 @@ namespace ProjectX.IdentityServer
 {
     public class Startup
     {
-        public IWebHostEnvironment Environment { get; }
-
         public Startup(IWebHostEnvironment environment)
         {
             Environment = environment;
         }
+
+        public IWebHostEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -34,10 +34,7 @@ namespace ProjectX.IdentityServer
 
         public void Configure(IApplicationBuilder app)
         {
-            if (Environment.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (Environment.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseStaticFiles();
             app.UseRouting();
@@ -45,10 +42,7 @@ namespace ProjectX.IdentityServer
             app.UseIdentityServer();
 
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
         }
     }
 }

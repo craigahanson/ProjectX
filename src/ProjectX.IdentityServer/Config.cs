@@ -1,32 +1,32 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-using IdentityModel;
-using IdentityServer4.Test;
-using IdentityServer4.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
+using IdentityModel;
+using IdentityServer4.Models;
+using IdentityServer4.Test;
 
 namespace ProjectX.IdentityServer
 {
     public static class Config
     {
-        public static IEnumerable<IdentityResource> Ids => new IdentityResource[]
-        { 
+        public static IEnumerable<IdentityResource> Ids => new[]
+        {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
             new IdentityResources.Email(),
-            new IdentityResource("country", new [] { "country" })
+            new IdentityResource("country", new[] { "country" })
         };
 
-        public static IEnumerable<ApiResource> Apis => new ApiResource[] 
+        public static IEnumerable<ApiResource> Apis => new[]
         {
-            new ApiResource("projectx.rest", "ProjectX Web Api", new [] { "country" })
+            new ApiResource("projectx.rest", "ProjectX Web Api", new[] { "country" })
         };
-        
-        public static IEnumerable<Client> Clients => new Client[] 
+
+        public static IEnumerable<Client> Clients => new[]
         {
-            new Client
+            new()
             {
                 Enabled = true,
                 ClientName = "Postman",
@@ -55,7 +55,7 @@ namespace ProjectX.IdentityServer
             }
         };
 
-        public static List<TestUser> Users => new List<TestUser>
+        public static List<TestUser> Users => new List<TestUser>()
         {
             new TestUser
             {
@@ -68,7 +68,7 @@ namespace ProjectX.IdentityServer
                     new Claim(JwtClaimTypes.GivenName, "Craig"),
                     new Claim(JwtClaimTypes.FamilyName, "Hanson"),
                     new Claim(JwtClaimTypes.Email, "craigahanson@gmail.com"),
-                    new Claim("country", "UK"),
+                    new Claim("country", "UK")
                 }
             },
             new TestUser
@@ -82,7 +82,7 @@ namespace ProjectX.IdentityServer
                     new Claim(JwtClaimTypes.GivenName, "Heather"),
                     new Claim(JwtClaimTypes.FamilyName, "Phillips"),
                     new Claim(JwtClaimTypes.Email, "hl_phillips@hotmail.co.uk"),
-                    new Claim("country", "UK"),
+                    new Claim("country", "UK")
                 }
             }
         };

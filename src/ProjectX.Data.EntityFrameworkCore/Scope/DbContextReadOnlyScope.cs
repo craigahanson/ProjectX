@@ -13,22 +13,24 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
 {
     public class DbContextReadOnlyScope : IDbContextReadOnlyScope
     {
-        private DbContextScope _internalScope;
-
-        public IDbContextCollection DbContexts { get { return _internalScope.DbContexts; } }
+        private readonly DbContextScope _internalScope;
 
         public DbContextReadOnlyScope(IDbContextFactory dbContextFactory = null)
-            : this(joiningOption: DbContextScopeOption.JoinExisting, isolationLevel: null, dbContextFactory: dbContextFactory)
-        { }
+            : this(DbContextScopeOption.JoinExisting, null, dbContextFactory)
+        {
+        }
 
         public DbContextReadOnlyScope(IsolationLevel isolationLevel, IDbContextFactory dbContextFactory = null)
-            : this(joiningOption: DbContextScopeOption.ForceCreateNew, isolationLevel: isolationLevel, dbContextFactory: dbContextFactory)
-        { }
+            : this(DbContextScopeOption.ForceCreateNew, isolationLevel, dbContextFactory)
+        {
+        }
 
         public DbContextReadOnlyScope(DbContextScopeOption joiningOption, IsolationLevel? isolationLevel, IDbContextFactory dbContextFactory = null)
         {
-            _internalScope = new DbContextScope(joiningOption: joiningOption, readOnly: true, isolationLevel: isolationLevel, dbContextFactory: dbContextFactory);
+            _internalScope = new DbContextScope(joiningOption, true, isolationLevel, dbContextFactory);
         }
+
+        public IDbContextCollection DbContexts => _internalScope.DbContexts;
 
         public void Dispose()
         {

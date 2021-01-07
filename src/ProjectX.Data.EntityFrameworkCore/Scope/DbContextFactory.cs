@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using ProjectX.Data.Scope;
+﻿using ProjectX.Data.Scope;
 
 namespace ProjectX.Data.EntityFrameworkCore.Scope
 {
     public class DbContextFactory : IDbContextFactory
     {
-        private readonly string connectionString;
         private readonly int? commandTimeout;
+        private readonly string connectionString;
 
         public DbContextFactory(string connectionString, int? commandTimeout)
         {
@@ -21,7 +15,7 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
 
         public TDbContext CreateDbContext<TDbContext>() where TDbContext : class
         {
-            return (TDbContext)(object)new ProjectXDbContext(connectionString, commandTimeout);
+            return (TDbContext) (object) new ProjectXDbContext(connectionString, commandTimeout);
         }
     }
 }

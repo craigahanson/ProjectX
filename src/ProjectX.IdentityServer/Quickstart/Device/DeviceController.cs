@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -20,11 +21,11 @@ namespace ProjectX.identityserver.Device
     [SecurityHeaders]
     public class DeviceController : Controller
     {
-        private readonly IDeviceFlowInteractionService _interaction;
         private readonly IClientStore _clientStore;
-        private readonly IResourceStore _resourceStore;
         private readonly IEventService _events;
+        private readonly IDeviceFlowInteractionService _interaction;
         private readonly ILogger<DeviceController> _logger;
+        private readonly IResourceStore _resourceStore;
 
         public DeviceController(
             IDeviceFlowInteractionService interaction,
@@ -98,10 +99,7 @@ namespace ProjectX.identityserver.Device
                 if (model.ScopesConsented != null && model.ScopesConsented.Any())
                 {
                     var scopes = model.ScopesConsented;
-                    if (ConsentOptions.EnableOfflineAccess == false)
-                    {
-                        scopes = scopes.Where(x => x != IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess);
-                    }
+                    if (ConsentOptions.EnableOfflineAccess == false) scopes = scopes.Where(x => x != IdentityServerConstants.StandardScopes.OfflineAccess);
 
                     grantedConsent = new ConsentResponse
                     {
@@ -150,13 +148,8 @@ namespace ProjectX.identityserver.Device
                 {
                     var resources = await _resourceStore.FindEnabledResourcesByScopeAsync(request.ScopesRequested);
                     if (resources != null && (resources.IdentityResources.Any() || resources.ApiResources.Any()))
-                    {
                         return CreateConsentViewModel(userCode, model, client, resources);
-                    }
-                    else
-                    {
-                        _logger.LogError("No scopes matching: {0}", request.ScopesRequested.Aggregate((x, y) => x + ", " + y));
-                    }
+                    _logger.LogError("No scopes matching: {0}", request.ScopesRequested.Aggregate((x, y) => x + ", " + y));
                 }
                 else
                 {
@@ -175,7 +168,7 @@ namespace ProjectX.identityserver.Device
 
                 RememberConsent = model?.RememberConsent ?? true,
                 ScopesConsented = model?.ScopesConsented ?? Enumerable.Empty<string>(),
-                
+
                 ClientName = client.ClientName ?? client.ClientId,
                 ClientUrl = client.ClientUri,
                 ClientLogoUrl = client.LogoUri,
@@ -185,19 +178,17 @@ namespace ProjectX.identityserver.Device
             vm.IdentityScopes = resources.IdentityResources.Select(x => CreateScopeViewModel(x, vm.ScopesConsented.Contains(x.Name) || model == null)).ToArray();
             vm.ResourceScopes = resources.ApiResources.SelectMany(x => x.Scopes).Select(x => CreateScopeViewModel(x, vm.ScopesConsented.Contains(x.Name) || model == null)).ToArray();
             if (ConsentOptions.EnableOfflineAccess && resources.OfflineAccess)
-            {
                 vm.ResourceScopes = vm.ResourceScopes.Union(new[]
                 {
-                    GetOfflineAccessScope(vm.ScopesConsented.Contains(IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess) || model == null)
+                    GetOfflineAccessScope(vm.ScopesConsented.Contains(IdentityServerConstants.StandardScopes.OfflineAccess) || model == null)
                 });
-            }
 
             return vm;
         }
 
         private ScopeViewModel CreateScopeViewModel(IdentityResource identity, bool check)
         {
-            return new ScopeViewModel
+            return new ScopeViewModel()
             {
                 Name = identity.Name,
                 DisplayName = identity.DisplayName,
@@ -210,7 +201,7 @@ namespace ProjectX.identityserver.Device
 
         public ScopeViewModel CreateScopeViewModel(Scope scope, bool check)
         {
-            return new ScopeViewModel
+            return new ScopeViewModel()
             {
                 Name = scope.Name,
                 DisplayName = scope.DisplayName,
@@ -220,11 +211,12 @@ namespace ProjectX.identityserver.Device
                 Checked = check || scope.Required
             };
         }
+
         private ScopeViewModel GetOfflineAccessScope(bool check)
         {
-            return new ScopeViewModel
+            return new ScopeViewModel()
             {
-                Name = IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
+                Name = IdentityServerConstants.StandardScopes.OfflineAccess,
                 DisplayName = ConsentOptions.OfflineAccessDisplayName,
                 Description = ConsentOptions.OfflineAccessDescription,
                 Emphasize = true,

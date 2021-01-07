@@ -8,6 +8,7 @@
 
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,22 +18,22 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
 {
     public class DbContextScope : IDbContextScope
     {
-        private bool _disposed;
-        private bool _readOnly;
+        private readonly DbContextCollection _dbContexts;
+        private readonly bool _nested;
+        private readonly DbContextScope _parentScope;
+        private readonly bool _readOnly;
         private bool _completed;
-        private bool _nested;
-        private DbContextScope _parentScope;
-        private DbContextCollection _dbContexts;
-
-        public IDbContextCollection DbContexts { get { return _dbContexts; } }
+        private bool _disposed;
 
         public DbContextScope(IDbContextFactory dbContextFactory = null) :
-            this(joiningOption: DbContextScopeOption.JoinExisting, readOnly: false, isolationLevel: null, dbContextFactory: dbContextFactory)
-        { }
+            this(DbContextScopeOption.JoinExisting, false, null, dbContextFactory)
+        {
+        }
 
         public DbContextScope(bool readOnly, IDbContextFactory dbContextFactory = null)
-            : this(joiningOption: DbContextScopeOption.JoinExisting, readOnly: readOnly, isolationLevel: null, dbContextFactory: dbContextFactory)
-        { }
+            : this(DbContextScopeOption.JoinExisting, readOnly, null, dbContextFactory)
+        {
+        }
 
         public DbContextScope(DbContextScopeOption joiningOption, bool readOnly, IsolationLevel? isolationLevel, IDbContextFactory dbContextFactory = null)
         {
@@ -46,10 +47,7 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
             _parentScope = GetAmbientScope();
             if (_parentScope != null && joiningOption == DbContextScopeOption.JoinExisting)
             {
-                if (_parentScope._readOnly && !this._readOnly)
-                {
-                    throw new InvalidOperationException("Cannot nest a read/write DbContextScope within a read-only DbContextScope.");
-                }
+                if (_parentScope._readOnly && !_readOnly) throw new InvalidOperationException("Cannot nest a read/write DbContextScope within a read-only DbContextScope.");
 
                 _nested = true;
                 _dbContexts = _parentScope._dbContexts;
@@ -63,20 +61,20 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
             SetAmbientScope(this);
         }
 
+        public IDbContextCollection DbContexts => _dbContexts;
+
         public int SaveChanges()
         {
             if (_disposed)
                 throw new ObjectDisposedException("DbContextScope");
             if (_completed)
-                throw new InvalidOperationException("You cannot call SaveChanges() more than once on a DbContextScope. A DbContextScope is meant to encapsulate a business transaction: create the scope at the start of the business transaction and then call SaveChanges() at the end. Calling SaveChanges() mid-way through a business transaction doesn't make sense and most likely mean that you should refactor your service method into two separate service method that each create their own DbContextScope and each implement a single business transaction.");
+                throw new InvalidOperationException(
+                    "You cannot call SaveChanges() more than once on a DbContextScope. A DbContextScope is meant to encapsulate a business transaction: create the scope at the start of the business transaction and then call SaveChanges() at the end. Calling SaveChanges() mid-way through a business transaction doesn't make sense and most likely mean that you should refactor your service method into two separate service method that each create their own DbContextScope and each implement a single business transaction.");
 
             // Only save changes if we're not a nested scope. Otherwise, let the top-level scope 
             // decide when the changes should be saved.
             var c = 0;
-            if (!_nested)
-            {
-                c = CommitInternal();
-            }
+            if (!_nested) c = CommitInternal();
 
             _completed = true;
 
@@ -95,35 +93,18 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
             if (_disposed)
                 throw new ObjectDisposedException("DbContextScope");
             if (_completed)
-                throw new InvalidOperationException("You cannot call SaveChanges() more than once on a DbContextScope. A DbContextScope is meant to encapsulate a business transaction: create the scope at the start of the business transaction and then call SaveChanges() at the end. Calling SaveChanges() mid-way through a business transaction doesn't make sense and most likely mean that you should refactor your service method into two separate service method that each create their own DbContextScope and each implement a single business transaction.");
+                throw new InvalidOperationException(
+                    "You cannot call SaveChanges() more than once on a DbContextScope. A DbContextScope is meant to encapsulate a business transaction: create the scope at the start of the business transaction and then call SaveChanges() at the end. Calling SaveChanges() mid-way through a business transaction doesn't make sense and most likely mean that you should refactor your service method into two separate service method that each create their own DbContextScope and each implement a single business transaction.");
 
             // Only save changes if we're not a nested scope. Otherwise, let the top-level scope 
             // decide when the changes should be saved.
             var c = 0;
-            if (!_nested)
-            {
-                c = await CommitInternalAsync(cancelToken).ConfigureAwait(false);
-            }
+            if (!_nested) c = await CommitInternalAsync(cancelToken).ConfigureAwait(false);
 
             _completed = true;
             return c;
         }
 
-        private int CommitInternal()
-        {
-            return _dbContexts.Commit();
-        }
-
-        private Task<int> CommitInternalAsync(CancellationToken cancelToken)
-        {
-            return _dbContexts.CommitAsync(cancelToken);
-        }
-
-        private void RollbackInternal()
-        {
-            _dbContexts.Rollback();
-        }
-        
         public void Dispose()
         {
             if (_disposed)
@@ -138,21 +119,17 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
                     try
                     {
                         if (_readOnly)
-                        {
                             // Disposing a read-only scope before having called its SaveChanges() method
                             // is the normal and expected behavior. Read-only scopes get committed automatically.
                             CommitInternal();
-                        }
                         else
-                        {
                             // Disposing a read/write scope before having called its SaveChanges() method
                             // indicates that something went wrong and that all changes should be rolled-back.
                             RollbackInternal();
-                        }
                     }
                     catch (Exception e)
                     {
-                        System.Diagnostics.Debug.WriteLine(e);
+                        Debug.WriteLine(e);
                     }
 
                     _completed = true;
@@ -215,7 +192,7 @@ In order to fix this:
 Stack Trace:
 " + Environment.StackTrace;
 
-                    System.Diagnostics.Debug.WriteLine(message);
+                    Debug.WriteLine(message);
                 }
                 else
                 {
@@ -224,7 +201,21 @@ Stack Trace:
             }
 
             _disposed = true;
+        }
 
+        private int CommitInternal()
+        {
+            return _dbContexts.Commit();
+        }
+
+        private Task<int> CommitInternalAsync(CancellationToken cancelToken)
+        {
+            return _dbContexts.CommitAsync(cancelToken);
+        }
+
+        private void RollbackInternal()
+        {
+            _dbContexts.Rollback();
         }
 
         #region Ambient Context Logic
@@ -310,10 +301,10 @@ Stack Trace:
         // it does: http://stackoverflow.com/a/18613811
         private static readonly ConditionalWeakTable<InstanceIdentifier, DbContextScope> DbContextScopeInstances = new ConditionalWeakTable<InstanceIdentifier, DbContextScope>();
         private static readonly AsyncLocal<InstanceIdentifier> CallContext = new AsyncLocal<InstanceIdentifier>();
-        private InstanceIdentifier _instanceIdentifier = new InstanceIdentifier();
+        private readonly InstanceIdentifier _instanceIdentifier = new InstanceIdentifier();
 
         /// <summary>
-        /// Makes the provided 'dbContextScope' available as the the ambient scope via the CallContext.
+        ///     Makes the provided 'dbContextScope' available as the the ambient scope via the CallContext.
         /// </summary>
         internal static void SetAmbientScope(DbContextScope newAmbientScope)
         {
@@ -333,8 +324,8 @@ Stack Trace:
         }
 
         /// <summary>
-        /// Clears the ambient scope from the CallContext and stops tracking its instance. 
-        /// Call this when a DbContextScope is being disposed.
+        ///     Clears the ambient scope from the CallContext and stops tracking its instance.
+        ///     Call this when a DbContextScope is being disposed.
         /// </summary>
         internal static void RemoveAmbientScope()
         {
@@ -342,15 +333,12 @@ Stack Trace:
             CallContext.Value = null;
 
             // If there was an ambient scope, we can stop tracking it now
-            if (current != null)
-            {
-                DbContextScopeInstances.Remove(current);
-            }
+            if (current != null) DbContextScopeInstances.Remove(current);
         }
 
         /// <summary>
-        /// Clears the ambient scope from the CallContext but keeps tracking its instance. Call this to temporarily 
-        /// hide the ambient context (e.g. to prevent it from being captured by parallel task).
+        ///     Clears the ambient scope from the CallContext but keeps tracking its instance. Call this to temporarily
+        ///     hide the ambient context (e.g. to prevent it from being captured by parallel task).
         /// </summary>
         internal static void HideAmbientScope()
         {
@@ -358,7 +346,7 @@ Stack Trace:
         }
 
         /// <summary>
-        /// Get the current ambient scope or null if no ambient scope has been setup.
+        ///     Get the current ambient scope or null if no ambient scope has been setup.
         /// </summary>
         internal static DbContextScope GetAmbientScope()
         {
@@ -385,7 +373,7 @@ Stack Trace:
             // the GC would be able to collect it. Once collected by the GC, our ConditionalWeakTable will return
             // null when queried for that instance. In that case, we're OK. This is a programming error 
             // but our use of a ConditionalWeakTable prevented a leak.
-            System.Diagnostics.Debug.WriteLine("Programming error detected. Found a reference to an ambient DbContextScope in the CallContext but didn't have an instance for it in our DbContextScopeInstances table. This most likely means that this DbContextScope instance wasn't disposed of properly. DbContextScope instance must always be disposed. Review the code for any DbContextScope instance used outside of a 'using' block and fix it so that all DbContextScope instances are disposed of.");
+            Debug.WriteLine("Programming error detected. Found a reference to an ambient DbContextScope in the CallContext but didn't have an instance for it in our DbContextScopeInstances table. This most likely means that this DbContextScope instance wasn't disposed of properly. DbContextScope instance must always be disposed. Review the code for any DbContextScope instance used outside of a 'using' block and fix it so that all DbContextScope instances are disposed of.");
             return null;
         }
 
@@ -402,5 +390,6 @@ Stack Trace:
      * a unique string.
     */
     internal class InstanceIdentifier : MarshalByRefObject
-    { }
+    {
+    }
 }

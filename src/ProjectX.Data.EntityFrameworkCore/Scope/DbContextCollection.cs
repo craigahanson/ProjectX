@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,41 +20,38 @@ using ProjectX.Data.Scope;
 namespace ProjectX.Data.EntityFrameworkCore.Scope
 {
     /// <summary>
-    /// As its name suggests, DbContextCollection maintains a collection of DbContext instances.
-    /// 
-    /// What it does in a nutshell:
-    /// - Lazily instantiates DbContext instances when its Get Of TDbContext () method is called
-    /// (and optionally starts an explicit database transaction).
-    /// - Keeps track of the DbContext instances it created so that it can return the existing
-    /// instance when asked for a DbContext of a specific type.
-    /// - Takes care of committing / rolling back changes and transactions on all the DbContext
-    /// instances it created when its Commit() or Rollback() method is called.
-    /// 
+    ///     As its name suggests, DbContextCollection maintains a collection of DbContext instances.
+    ///     What it does in a nutshell:
+    ///     - Lazily instantiates DbContext instances when its Get Of TDbContext () method is called
+    ///     (and optionally starts an explicit database transaction).
+    ///     - Keeps track of the DbContext instances it created so that it can return the existing
+    ///     instance when asked for a DbContext of a specific type.
+    ///     - Takes care of committing / rolling back changes and transactions on all the DbContext
+    ///     instances it created when its Commit() or Rollback() method is called.
     /// </summary>
     public class DbContextCollection : IDbContextCollection
     {
-        private Dictionary<Type, DbContext> _initializedDbContexts;
-        private Dictionary<DbContext, IDbContextTransaction> _transactions;
-        private IsolationLevel? _isolationLevel;
         private readonly IDbContextFactory _dbContextFactory;
-        private bool _disposed;
+        private readonly IsolationLevel? _isolationLevel;
+        private readonly bool _readOnly;
+        private readonly Dictionary<DbContext, IDbContextTransaction> _transactions;
         private bool _completed;
-        private bool _readOnly;
-
-        internal Dictionary<Type, DbContext> InitializedDbContexts { get { return _initializedDbContexts; } }
+        private bool _disposed;
 
         public DbContextCollection(bool readOnly = false, IsolationLevel? isolationLevel = null, IDbContextFactory dbContextFactory = null)
         {
             _disposed = false;
             _completed = false;
 
-            _initializedDbContexts = new Dictionary<Type, DbContext>();
+            InitializedDbContexts = new Dictionary<Type, DbContext>();
             _transactions = new Dictionary<DbContext, IDbContextTransaction>();
 
             _readOnly = readOnly;
             _isolationLevel = isolationLevel;
             _dbContextFactory = dbContextFactory;
         }
+
+        internal Dictionary<Type, DbContext> InitializedDbContexts { get; }
 
         public TDbContext Get<TDbContext>() where TDbContext : class
         {
@@ -62,7 +60,7 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
 
             var requestedType = typeof(TDbContext);
 
-            if (!_initializedDbContexts.ContainsKey(requestedType))
+            if (!InitializedDbContexts.ContainsKey(requestedType))
             {
                 // First time we've been asked for this particular DbContext type.
                 // Create one, cache it and start its database transaction if needed.
@@ -70,12 +68,9 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
                     ? _dbContextFactory.CreateDbContext<TDbContext>()
                     : Activator.CreateInstance<TDbContext>()) as DbContext;
 
-                _initializedDbContexts.Add(requestedType, dbContext);
+                InitializedDbContexts.Add(requestedType, dbContext);
 
-                if (_readOnly)
-                {
-                    dbContext.ChangeTracker.AutoDetectChangesEnabled = false;
-                }
+                if (_readOnly) dbContext.ChangeTracker.AutoDetectChangesEnabled = false;
 
                 if (_isolationLevel.HasValue)
                 {
@@ -84,7 +79,41 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
                 }
             }
 
-            return _initializedDbContexts[requestedType] as TDbContext;
+            return InitializedDbContexts[requestedType] as TDbContext;
+        }
+
+        public void Dispose()
+        {
+            if (_disposed)
+                return;
+
+            // Do our best here to dispose as much as we can even if we get errors along the way.
+            // Now is not the time to throw. Correctly implemented applications will have called
+            // either Commit() or Rollback() first and would have got the error there.
+
+            if (!_completed)
+                try
+                {
+                    if (_readOnly) Commit();
+                    else Rollback();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                }
+
+            foreach (var dbContext in InitializedDbContexts.Values)
+                try
+                {
+                    dbContext.Dispose();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                }
+
+            InitializedDbContexts.Clear();
+            _disposed = true;
         }
 
         public int Commit()
@@ -114,14 +143,10 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
 
             var c = 0;
 
-            foreach (var dbContext in _initializedDbContexts.Values)
-            {
+            foreach (var dbContext in InitializedDbContexts.Values)
                 try
                 {
-                    if (!_readOnly)
-                    {
-                        c += dbContext.SaveChanges();
-                    }
+                    if (!_readOnly) c += dbContext.SaveChanges();
 
                     // If we've started an explicit database transaction, time to commit it now.
                     var tran = GetValueOrDefault(_transactions, dbContext);
@@ -135,7 +160,6 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
                 {
                     lastError = ExceptionDispatchInfo.Capture(e);
                 }
-            }
 
             _transactions.Clear();
             _completed = true;
@@ -166,14 +190,10 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
 
             var c = 0;
 
-            foreach (var dbContext in _initializedDbContexts.Values)
-            {
+            foreach (var dbContext in InitializedDbContexts.Values)
                 try
                 {
-                    if (!_readOnly)
-                    {
-                        c += await dbContext.SaveChangesAsync(cancelToken).ConfigureAwait(false);
-                    }
+                    if (!_readOnly) c += await dbContext.SaveChangesAsync(cancelToken).ConfigureAwait(false);
 
                     // If we've started an explicit database transaction, time to commit it now.
                     var tran = GetValueOrDefault(_transactions, dbContext);
@@ -187,7 +207,6 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
                 {
                     lastError = ExceptionDispatchInfo.Capture(e);
                 }
-            }
 
             _transactions.Clear();
             _completed = true;
@@ -207,7 +226,7 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
 
             ExceptionDispatchInfo lastError = null;
 
-            foreach (var dbContext in _initializedDbContexts.Values)
+            foreach (var dbContext in InitializedDbContexts.Values)
             {
                 // There's no need to explicitly rollback changes in a DbContext as
                 // DbContext doesn't save any changes until its SaveChanges() method is called.
@@ -217,7 +236,6 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
                 // But if we've started an explicit database transaction, then we must roll it back.
                 var tran = GetValueOrDefault(_transactions, dbContext);
                 if (tran != null)
-                {
                     try
                     {
                         tran.Rollback();
@@ -227,7 +245,6 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
                     {
                         lastError = ExceptionDispatchInfo.Capture(e);
                     }
-                }
             }
 
             _transactions.Clear();
@@ -237,52 +254,14 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
                 lastError.Throw(); // Re-throw while maintaining the exception's original stack track
         }
 
-        public void Dispose()
-        {
-            if (_disposed)
-                return;
-
-            // Do our best here to dispose as much as we can even if we get errors along the way.
-            // Now is not the time to throw. Correctly implemented applications will have called
-            // either Commit() or Rollback() first and would have got the error there.
-
-            if (!_completed)
-            {
-                try
-                {
-                    if (_readOnly) Commit();
-                    else Rollback();
-                }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine(e);
-                }
-            }
-
-            foreach (var dbContext in _initializedDbContexts.Values)
-            {
-                try
-                {
-                    dbContext.Dispose();
-                }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine(e);
-                }
-            }
-
-            _initializedDbContexts.Clear();
-            _disposed = true;
-        }
-
         /// <summary>
-        /// Returns the value associated with the specified key or the default 
-        /// value for the TValue  type.
+        ///     Returns the value associated with the specified key or the default
+        ///     value for the TValue  type.
         /// </summary>
         private static TValue GetValueOrDefault<TKey, TValue>(IDictionary<TKey, TValue> dictionary, TKey key)
         {
             TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : default(TValue);
+            return dictionary.TryGetValue(key, out value) ? value : default;
         }
     }
 }

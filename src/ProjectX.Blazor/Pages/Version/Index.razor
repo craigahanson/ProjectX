@@ -1,6 +1,6 @@
 ﻿@page "/version"
-@using ProjectX.Api
 @using ProjectX.Blazor.Services
+@using ProjectX.Api
 
 @inject IBlazorVersionService BlazorVersionService
 
@@ -8,7 +8,9 @@
 
 @if (version == null)
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else
 {
