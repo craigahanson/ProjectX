@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace ProjectX.Api.Abstractions
+namespace ProjectX.Api
 {
     public interface IVersionService
     {

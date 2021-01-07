@@ -4,8 +4,8 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
-using ProjectX.Api.Abstractions;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using ProjectX.Api;
 
 namespace ProjectX.Blazor.Services
 {

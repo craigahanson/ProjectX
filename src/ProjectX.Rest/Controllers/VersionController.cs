@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ProjectX.Api.Abstractions;
+using ProjectX.Api;
 
 namespace ProjectX.Rest.Controllers
 {

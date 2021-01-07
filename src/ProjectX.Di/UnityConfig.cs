@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using ProjectX.Api;
-using ProjectX.Api.Abstractions;
 using ProjectX.Data.EntityFrameworkCore;
 using ProjectX.Data.EntityFrameworkCore.Version;
 using ProjectX.Data.Version;

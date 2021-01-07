@@ -2,7 +2,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ProjectX.Api.Abstractions;
+using ProjectX.Api;
 using ProjectX.Data.Version;
 
 namespace ProjectX.Rest.Tests

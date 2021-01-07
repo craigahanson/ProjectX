@@ -6,7 +6,7 @@ using Bunit;
 using ProjectX.Rest;
 using NSubstitute;
 using Microsoft.Extensions.DependencyInjection;
-using ProjectX.Api.Abstractions;
+using ProjectX.Api;
 
 namespace ProjectX.Blazor.Tests.Pages.Version
 {

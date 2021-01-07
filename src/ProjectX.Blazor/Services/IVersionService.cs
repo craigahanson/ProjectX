@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ProjectX.Api.Abstractions;
+using ProjectX.Api;
 
 namespace ProjectX.Blazor.Services
 {

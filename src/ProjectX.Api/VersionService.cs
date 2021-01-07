@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using ProjectX.Api.Abstractions;
 using ProjectX.Data.Scope;
 using ProjectX.Data.Version;
 
