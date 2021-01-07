@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using ProjectX.Testing;
 
 namespace ProjectX.Rest.Tests
 {
-    public class TestBase
+    public class RestTestBase : TestBase
     {
         public HttpClient HttpClientNoAuth { get; set; }
         public HttpClient HttpClientAuthenticated { get; set; }
 
         [SetUp]
-        public void Setup()
+        public new void Setup()
         {
             HttpClientNoAuth = new WebApplicationFactory<Startup>()
                 .CreateClient(new WebApplicationFactoryClientOptions());
@@ -31,7 +28,8 @@ namespace ProjectX.Rest.Tests
                             .AddScheme<JwtBearerOptions, TestAuthHandler>(
                                 "Test", options => { });
                     });
-                }).CreateClient(new WebApplicationFactoryClientOptions
+                })
+                .CreateClient(new WebApplicationFactoryClientOptions
                 {
                     AllowAutoRedirect = false
                 });

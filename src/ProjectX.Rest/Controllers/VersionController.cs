@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectX.Api.Abstractions;
@@ -19,9 +16,9 @@ namespace ProjectX.Rest.Controllers
         }
 
         [HttpGet]
-        public ApiVersion Get()
+        public async Task<ApiVersion> Get()
         {
-            return versionService.Get();
+            return await versionService.Get();
         }
     }
 }

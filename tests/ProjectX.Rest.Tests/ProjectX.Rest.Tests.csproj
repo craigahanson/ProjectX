@@ -15,7 +15,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\ProjectX.Api.Abstractions\ProjectX.Api.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\ProjectX.Api\ProjectX.Api.csproj" />
     <ProjectReference Include="..\..\src\ProjectX.Rest\ProjectX.Rest.csproj" />
+    <ProjectReference Include="..\ProjectX.Testing\ProjectX.Testing.csproj" />
   </ItemGroup>
 
 </Project>

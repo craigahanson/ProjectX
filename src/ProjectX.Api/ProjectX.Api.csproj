@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProjectX.Api.Abstractions\ProjectX.Api.Abstractions.csproj" />
+    <ProjectReference Include="..\ProjectX.Data.Abstractions\ProjectX.Data.Abstractions.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

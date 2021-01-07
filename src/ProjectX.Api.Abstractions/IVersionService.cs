@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProjectX.Api.Abstractions
 {
     public interface IVersionService
     {
-        ApiVersion Get();
+        Task<ApiVersion> Get();
     }
 }

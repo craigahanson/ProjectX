@@ -1,21 +1,13 @@
-using System;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using ProjectX.Rest;
 using ProjectX.Api.Abstractions;
+using ProjectX.Data.Version;
 
 namespace ProjectX.Rest.Tests
 {
-    public class VersionAuthenticatedTests : TestBase
+    public class VersionAuthenticatedTests : RestTestBase
     {
         [Test]
         public async Task Get_ReturnsUnauthorized_WhenNotLoggedIn()
@@ -30,6 +22,10 @@ namespace ProjectX.Rest.Tests
         [Test]
         public async Task Get_ReturnsVersion_WhenAuthenticated()
         {
+            //Arrange
+            await DbContextForArrange.Versions.AddAsync(new EntityVersion { Major = 1, Minor = 2, Build = 3, Revision = 4 });
+            await DbContextForArrange.SaveChangesAsync();
+
             //Act
             var response = await HttpClientAuthenticated.GetAsync("api/versionauthenticated");
 
@@ -40,9 +36,9 @@ namespace ProjectX.Rest.Tests
             var version = JsonSerializer.Deserialize<ApiVersion>(response.Content.ReadAsStringAsync().Result, options);
             Assert.That(version, Is.Not.Null);
             Assert.That(version.Major, Is.EqualTo(1));
-            Assert.That(version.Minor, Is.EqualTo(0));
-            Assert.That(version.Build, Is.EqualTo(0));
-            Assert.That(version.Revision, Is.EqualTo(0));
+            Assert.That(version.Minor, Is.EqualTo(2));
+            Assert.That(version.Build, Is.EqualTo(3));
+            Assert.That(version.Revision, Is.EqualTo(4));
         }
     }
 }
