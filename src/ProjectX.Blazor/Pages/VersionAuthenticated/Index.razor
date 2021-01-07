@@ -1,8 +1,9 @@
 ﻿@page "/versionauthenticated"
 @using ProjectX.Api
+@using ProjectX.Blazor.Services
 @attribute [Authorize]
 
-@inject Services.IVersionService VersionService
+@inject IBlazorVersionService BlazorVersionService
 
 <h1>Version Authenticated</h1>
 
@@ -21,6 +22,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-       version = await VersionService.GetAuthenticatedAsync();
+       version = await BlazorVersionService.GetAuthenticatedAsync();
     }
 }

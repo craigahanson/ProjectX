@@ -1,7 +1,8 @@
 ﻿@page "/version"
 @using ProjectX.Api
+@using ProjectX.Blazor.Services
 
-@inject Services.IVersionService VersionService
+@inject IBlazorVersionService BlazorVersionService
 
 <h1>Version</h1>
 
@@ -20,6 +21,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        version = await VersionService.GetAsync();
+        version = await BlazorVersionService.GetAsync();
     }
 }

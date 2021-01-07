@@ -9,12 +9,12 @@ using ProjectX.Api;
 
 namespace ProjectX.Blazor.Services
 {
-    public class VersionService : IVersionService
+    public class BlazorVersionService : IBlazorVersionService
     {
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IAccessTokenProvider accessTokenProvider;
 
-        public VersionService(IHttpClientFactory httpClientFactory, IAccessTokenProvider accessTokenProvider)
+        public BlazorVersionService(IHttpClientFactory httpClientFactory, IAccessTokenProvider accessTokenProvider)
         {
             this.httpClientFactory = httpClientFactory;
             this.accessTokenProvider = accessTokenProvider;

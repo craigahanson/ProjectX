@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Text;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using ProjectX.Blazor.Services;
 
 namespace ProjectX.Blazor
 {
@@ -17,12 +15,12 @@ namespace ProjectX.Blazor
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddHttpClient("HttpClient", client => client.BaseAddress = new Uri("https://localhost:1002/api/"))
-                            .AddHttpMessageHandler(sp => sp.GetRequiredService<AuthorizationMessageHandler>()
-                                .ConfigureHandler(new [] { "https://localhost:1001" }, scopes: new[] { "opendid", "profile", "projectx.rest" }));
+                .AddHttpMessageHandler(sp => sp.GetRequiredService<AuthorizationMessageHandler>()
+                    .ConfigureHandler(new[] { "https://localhost:1001" }, new[] { "opendid", "profile", "projectx.rest" }));
 
             builder.Services.AddHttpClient("HttpClientNoAuth", client => client.BaseAddress = new Uri("https://localhost:1002/api/"));
 
-            builder.Services.AddOidcAuthentication(options => 
+            builder.Services.AddOidcAuthentication(options =>
             {
                 options.ProviderOptions.Authority = "https://localhost:1001";
                 options.ProviderOptions.ClientId = "projectx.blazor";
@@ -33,7 +31,7 @@ namespace ProjectX.Blazor
                 options.ProviderOptions.ResponseType = "code";
             });
 
-            builder.Services.AddScoped<Services.IVersionService, Services.VersionService>();
+            builder.Services.AddScoped<IBlazorVersionService, BlazorVersionService>();
 
             await builder.Build().RunAsync();
         }

@@ -1,12 +1,11 @@
-using System.Net.Http;
-using NUnit.Framework;
-using ProjectX.Blazor.Pages.Version;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Bunit;
-using ProjectX.Rest;
-using NSubstitute;
 using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
+using NUnit.Framework;
 using ProjectX.Api;
+using ProjectX.Blazor.Pages.Version;
+using ProjectX.Blazor.Services;
+using TestContext = Bunit.TestContext;
 
 namespace ProjectX.Blazor.Tests.Pages.Version
 {
@@ -16,11 +15,11 @@ namespace ProjectX.Blazor.Tests.Pages.Version
         public void Index_DisplaysLoading_WhenVersionIsNull()
         {
             //Arrange
-            var versionService = Substitute.For<Services.IVersionService>();
-            versionService.GetAsync().Returns((ApiVersion)null);
-            
-            using var context = new Bunit.TestContext();
-            context.Services.Add(ServiceDescriptor.Singleton<Services.IVersionService>(versionService));
+            var versionService = Substitute.For<IBlazorVersionService>();
+            versionService.GetAsync().Returns((ApiVersion) null);
+
+            using var context = new TestContext();
+            context.Services.Add(ServiceDescriptor.Singleton(versionService));
 
             //Act
             var index = context.RenderComponent<Index>();
@@ -39,11 +38,11 @@ namespace ProjectX.Blazor.Tests.Pages.Version
         public void Index_DisplaysVersion_WhenVersionIsSet()
         {
             //Arrange
-            var versionService = Substitute.For<Services.IVersionService>();
+            var versionService = Substitute.For<IBlazorVersionService>();
             versionService.GetAsync().Returns(new ApiVersion { Major = 1, Minor = 2, Build = 3, Revision = 4 });
-            
-            using var context = new Bunit.TestContext();
-            context.Services.Add(ServiceDescriptor.Singleton<Services.IVersionService>(versionService));
+
+            using var context = new TestContext();
+            context.Services.Add(ServiceDescriptor.Singleton(versionService));
 
             //Act
             var index = context.RenderComponent<Index>();

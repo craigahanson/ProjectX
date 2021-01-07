@@ -5,7 +5,7 @@ using ProjectX.Api;
 
 namespace ProjectX.Blazor.Services
 {
-    public interface IVersionService
+    public interface IBlazorVersionService
     {
         Task<ApiVersion> GetAsync();
         Task<ApiVersion> GetAuthenticatedAsync();
