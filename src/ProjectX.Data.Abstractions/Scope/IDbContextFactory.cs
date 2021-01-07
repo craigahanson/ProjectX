@@ -32,6 +32,6 @@ namespace ProjectX.Data.Scope
     /// </remarks>
     public interface IDbContextFactory
     {
-        TDbContext CreateDbContext<TDbContext>();
+        TDbContext CreateDbContext<TDbContext>() where TDbContext : class;
     }
 }

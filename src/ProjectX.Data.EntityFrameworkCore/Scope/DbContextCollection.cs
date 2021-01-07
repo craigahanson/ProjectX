@@ -60,15 +60,15 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
             if (_disposed)
                 throw new ObjectDisposedException("DbContextCollection");
 
-            var requestedType = typeof(DbContext);
+            var requestedType = typeof(TDbContext);
 
             if (!_initializedDbContexts.ContainsKey(requestedType))
             {
                 // First time we've been asked for this particular DbContext type.
                 // Create one, cache it and start its database transaction if needed.
-                var dbContext = _dbContextFactory != null
-                    ? _dbContextFactory.CreateDbContext<DbContext>()
-                    : Activator.CreateInstance<DbContext>();
+                var dbContext = (_dbContextFactory != null
+                    ? _dbContextFactory.CreateDbContext<TDbContext>()
+                    : Activator.CreateInstance<TDbContext>()) as DbContext;
 
                 _initializedDbContexts.Add(requestedType, dbContext);
 
