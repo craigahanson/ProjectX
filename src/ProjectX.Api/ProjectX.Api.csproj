@@ -1,8 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\ProjectX.Api.Abstractions\ProjectX.Api.Abstractions.csproj" />
     <ProjectReference Include="..\ProjectX.Data.Abstractions\ProjectX.Data.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Unity.Microsoft.DependencyInjection" Version="5.10.2" />
   </ItemGroup>
 
   <PropertyGroup>

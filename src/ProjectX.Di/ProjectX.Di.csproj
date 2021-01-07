@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\ProjectX.Api.Abstractions\ProjectX.Api.Abstractions.csproj" />
     <ProjectReference Include="..\ProjectX.Api\ProjectX.Api.csproj" />
     <ProjectReference Include="..\ProjectX.Data.EntityFrameworkCore\ProjectX.Data.EntityFrameworkCore.csproj" />
   </ItemGroup>
