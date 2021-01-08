@@ -33,7 +33,7 @@ namespace ProjectX.Rest
                     options.RequireHttpsMetadata = false;
                 });
 
-            UnityConfig.Build(services);
+            UnityConfig.BuildServicesForRest(services, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

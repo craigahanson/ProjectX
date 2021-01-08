@@ -1,21 +1,29 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.IO;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using ProjectX.Data.EntityFrameworkCore;
 using ProjectX.Data.EntityFrameworkCore.Scope;
+using ProjectX.Library;
 
 namespace ProjectX.Testing
 {
     public class TestBase
     {
-        private static readonly string DbConnectionString = "Server=(local);Database=ProjectX;User ID=sa;Password=Welcome123;Trusted_Connection=False;";
-        private static readonly int? DbCommandTimeout = 5;
+        private AppSettings appSettings;
+
+        public TestBase()
+        {
+            var builder = new ConfigurationBuilder().AddJsonFile(Path.Combine(TestContext.CurrentContext.TestDirectory, @"appsettings.json"), optional: false, reloadOnChange: true);
+            appSettings = builder.Build().CreateAppSettings();
+        }
 
         public ProjectXDbContext DbContextForArrange { get; set; }
         public ProjectXDbContext DbContextForAssert { get; set; }
-
+        
         public DbContextScopeFactory CreateDbContextScopeFactory()
         {
-            return new DbContextScopeFactory(new DbContextFactory(DbConnectionString, DbCommandTimeout));
+            return new DbContextScopeFactory(new DbContextFactory(appSettings.Database.ConnectionString, appSettings.Database.CommandTimeout));
         }
 
         [SetUp]
@@ -23,13 +31,13 @@ namespace ProjectX.Testing
         {
             DeleteEverything();
 
-            DbContextForArrange = new ProjectXDbContext(DbConnectionString, DbCommandTimeout);
-            DbContextForAssert = new ProjectXDbContext(DbConnectionString, DbCommandTimeout);
+            DbContextForArrange = new ProjectXDbContext(appSettings.Database.ConnectionString, appSettings.Database.CommandTimeout);
+            DbContextForAssert = new ProjectXDbContext(appSettings.Database.ConnectionString, appSettings.Database.CommandTimeout);
         }
 
         public void DeleteEverything()
         {
-            using (var dbContext = new ProjectXDbContext(DbConnectionString, DbCommandTimeout))
+            using (var dbContext = new ProjectXDbContext(appSettings.Database.ConnectionString, appSettings.Database.CommandTimeout))
             {
                 dbContext.Database.ExecuteSqlRaw("delete from Versions");
             }

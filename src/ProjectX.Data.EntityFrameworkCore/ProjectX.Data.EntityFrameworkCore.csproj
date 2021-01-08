@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProjectX.Data.Abstractions\ProjectX.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\ProjectX.Library\ProjectX.Library.csproj" />
   </ItemGroup>
 
 </Project>
