@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
+﻿using System.Runtime.InteropServices.ComTypes;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace ProjectX.Data.EntityFrameworkCore
 {
@@ -6,7 +7,7 @@ namespace ProjectX.Data.EntityFrameworkCore
     {
         public ProjectXDbContext CreateDbContext(string[] args)
         {
-            return new ProjectXDbContext("Server=(local);Database=ProjectX;User ID=sa;Password=Welcome123;Trusted_Connection=False;", null);
+            return new ProjectXDbContext(args[0], int.TryParse(args[1], out int timeout) ? timeout : null);
         }
     }
 }

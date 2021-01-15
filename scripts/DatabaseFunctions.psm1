@@ -24,6 +24,23 @@ function DropAndRecreateDatabase {
     Write-Host " > Created Database"
 }
 
+function ApplyMigrations {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$DatabaseName,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerInstance,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerUsername,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerPassword
+    )
+
+    Write-Host " > Applying Migrations"
+    privateApplyMigrations -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
+    Write-Host " > Applied Migrations"
+}
+
 function privateDropDatabase {
     param(
         [Parameter(Mandatory=$true)]
@@ -66,4 +83,20 @@ function privateCreateDatabase {
     $databaseToCreate.RecoveryModel = "simple"
 }
 
+function privateApplyMigrations {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$DatabaseName,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerInstance,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerUsername,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerPassword
+    )
+
+    dotnet ef database update --project ..\src\ProjectX.Data.EntityFrameworkCore --startup-project ..\src\ProjectX.Data.EntityFrameworkCore -- "Server=$ServerInstance;Database=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;Trusted_Connection=True;", 5
+}
+
 Export-ModuleMember -Function DropAndRecreateDatabase
+Export-ModuleMember -Function ApplyMigrations
