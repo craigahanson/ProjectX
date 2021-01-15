@@ -10,7 +10,7 @@ New project for developing a .net core ecosystem within a docker container
 |ProjectX.Rest|1002|dotnet run watch --project src/ProjectX.Rest|
 |ProjectX.Blazor|1003|dotnet run watch --project src/ProjectX.Blazor|
 
-###  Trust Dev Certificate
+### Trust Dev Certificate
 dotnet dev-certs https --trust
 
 ### Debug Blazor Web Assembly
@@ -19,3 +19,8 @@ chrome --remote-debugging-port=9222 --user-data-dir="C:\Users\craig\AppData\Loca
 ### Entity Framework Scope sources
 https://mehdi.me/ambient-dbcontext-in-ef6/
 https://github.com/mehdime/DbContextScope
+
+### Sql Server bits
+
+Install-Module -Name SqlServer -AllowClobber
+Get-Module SqlServer -ListAvailable

@@ -37,7 +37,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.Data.EntityFramewo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.Testing", "tests\ProjectX.Testing\ProjectX.Testing.csproj", "{666325B2-575B-4886-8336-1A45BA417888}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Library", "src\ProjectX.Library\ProjectX.Library.csproj", "{DC273AFC-B20F-434A-BE61-496CDC6CACAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectX.Library", "src\ProjectX.Library\ProjectX.Library.csproj", "{DC273AFC-B20F-434A-BE61-496CDC6CACAB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{C21C87CC-238B-4854-8D4E-DD34B3AE47D9}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\Database.ps1 = scripts\Database.ps1
+		scripts\DatabaseFunctions.psm1 = scripts\DatabaseFunctions.psm1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
