@@ -31,12 +31,18 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build Project ($(buildConfiguration))'
 
-- task: PowerShell@2
-  displayName: 'Build Database'
-  inputs:
-    targetType: 'inline'
-    script: |
-      & (".\scripts\Database.ps1") -Clean -DatabaseName $(DATABASENAME) -ServerInstance $(SERVERINSTANCE) -ServerUsername $(SERVERUSERNAME) -ServerPassword $(SERVERPASSWORD)
+- powershell: |
+    Write-Host "DatabaseName: $(DATABASENAME)"
+    #& (".\scripts\Database.ps1") -Clean -DatabaseName $(DATABASENAME) -ServerInstance $(SERVERINSTANCE) -ServerUsername $(SERVERUSERNAME) -ServerPassword $(SERVERPASSWORD)
+  env:
+    DATABASENAME: $(DatabaseName)
+
+#- task: PowerShell@2
+#  displayName: 'Build Database'
+#  inputs:
+#    targetType: 'inline'
+#    script: |
+#      & (".\scripts\Database.ps1") -Clean -DatabaseName $(DATABASENAME) -ServerInstance $(SERVERINSTANCE) -ServerUsername $(SERVERUSERNAME) -ServerPassword $(SERVERPASSWORD)
 
 #- task: DotNetCoreCLI@2
 #  displayName: 'dotnet test'
