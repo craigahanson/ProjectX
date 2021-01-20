@@ -35,10 +35,10 @@ steps:
     #& (".\scripts\Database.ps1") -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
     .\scripts\Database.ps1 -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
   env:
-    LOCALDATABASENAME: $(DatabaseName)
-    LOCALSERVERINSTANCE: $(ServerInstance)
-    LOCALSERVERUSERNAME: $(ServerUsername)
-    LOCALSERVERPASSWORD: $(ServerPassword)
+    LOCALDATABASENAME: $(DbName)
+    LOCALSERVERINSTANCE: $(DbServer)
+    LOCALSERVERUSERNAME: $(DbUser)
+    LOCALSERVERPASSWORD: $(DbPassword)
   displayName: 'Build Database'
 
 #- task: PowerShell@2
