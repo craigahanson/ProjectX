@@ -37,6 +37,7 @@ steps:
     targetType: 'inline'
     script: |
       & (".\scripts\Database.ps1") -Clean -DatabaseName ${env:DATABASENAME} -ServerInstance ${env:SERVERINSTANCE} -ServerUsername ${env:SERVERUSERNAME} -ServerPassword ${env:SERVERPASSWORD}
+      & Write-Host "DatabaseName: ${env:DATABASENAME}"
 
 #- task: DotNetCoreCLI@2
 #  displayName: 'dotnet test'
