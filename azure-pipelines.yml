@@ -32,10 +32,10 @@ steps:
   displayName: 'Build Project ($(buildConfiguration))'
 
 - powershell: |
-    Write-Host "DatabaseName: $(LOCALDATABASENAME)"
+    Write-Host "DatabaseName: $env:LOCALDATABASENAME"
     #& (".\scripts\Database.ps1") -Clean -DatabaseName $(DATABASENAME) -ServerInstance $(SERVERINSTANCE) -ServerUsername $(SERVERUSERNAME) -ServerPassword $(SERVERPASSWORD)
   env:
-    LOCALDATABASENAME: $(DatabaseName)
+    LOCALDATABASENAME: $(DATABASENAME)
 
 #- task: PowerShell@2
 #  displayName: 'Build Database'
