@@ -33,9 +33,13 @@ steps:
 
 - powershell: |
     Write-Host "DatabaseName: $env:LOCALDATABASENAME"
-    #& (".\scripts\Database.ps1") -Clean -DatabaseName $(DATABASENAME) -ServerInstance $(SERVERINSTANCE) -ServerUsername $(SERVERUSERNAME) -ServerPassword $(SERVERPASSWORD)
+    #& (".\scripts\Database.ps1") -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
+    .\scripts\Database.ps1 -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
   env:
     LOCALDATABASENAME: $(DATABASENAME)
+    LOCALSERVERINSTANCE: $(SERVERINSTANCE)
+    LOCALSERVERUSERNAME: $(SERVERUSERNAME)
+    LOCALSERVERPASSWORD: $(SERVERPASSWORD)
 
 #- task: PowerShell@2
 #  displayName: 'Build Database'
