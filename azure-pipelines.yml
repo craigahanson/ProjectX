@@ -21,6 +21,9 @@ steps:
 - script: dotnet tool install --global dotnet-ef
   displayName: 'Install Entity Framework tools'
 
+- script: dotnet tool install --global PowerShell
+  displayName: 'Install Powershell'
+
 - script: Install-Module -Name SqlServer -AllowClobber
   displayName: 'Install Sql Server tools'
 
