@@ -31,21 +31,26 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build Project ($(buildConfiguration))'
 
-- powershell: |
-    .\scripts\Database.ps1 -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
+#- powershell: |
+#    .\scripts\Database.ps1 -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
+#  env:
+#    LOCALDATABASENAME: $(DbName)
+#    LOCALSERVERINSTANCE: $(DbServer)
+#    LOCALSERVERUSERNAME: $(DbUser)
+#    LOCALSERVERPASSWORD: $(DbPassword)
+#  displayName: 'Build Database'
+
+- task: PowerShell@2
+  displayName: 'Build Database'
+  inputs:
+    targetType: 'inline'
+    script: |
+      & (".\scripts\Database.ps1") -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
   env:
     LOCALDATABASENAME: $(DbName)
     LOCALSERVERINSTANCE: $(DbServer)
     LOCALSERVERUSERNAME: $(DbUser)
     LOCALSERVERPASSWORD: $(DbPassword)
-  displayName: 'Build Database'
-
-#- task: PowerShell@2
-#  displayName: 'Build Database'
-#  inputs:
-#    targetType: 'inline'
-#    script: |
-#      & (".\scripts\Database.ps1") -Clean -DatabaseName $(DATABASENAME) -ServerInstance $(SERVERINSTANCE) -ServerUsername $(SERVERUSERNAME) -ServerPassword $(SERVERPASSWORD)
 
 #- task: DotNetCoreCLI@2
 #  displayName: 'dotnet test'
