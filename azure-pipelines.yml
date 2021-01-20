@@ -32,7 +32,6 @@ steps:
   displayName: 'Build Project ($(buildConfiguration))'
 
 - powershell: |
-    #& (".\scripts\Database.ps1") -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
     .\scripts\Database.ps1 -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
   env:
     LOCALDATABASENAME: $(DbName)
