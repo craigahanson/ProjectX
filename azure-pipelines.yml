@@ -14,13 +14,31 @@ variables:
 
 steps:
 - task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
   inputs:
     version: '5.0.x'
 
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-  
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet test'
+- task: PowerShell@2
+  displayName: 'Install Sql Server tools'
   inputs:
-    command: 'test'
+    targetType: 'inline'
+    script: |
+      Install-Module -Name SqlServer -AllowClobber -Force
+
+- script: dotnet tool install --global dotnet-ef
+  displayName: 'Install Entity Framework tools'
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'Build Project ($(buildConfiguration))'
+
+- task: PowerShell@2
+  displayName: 'Build Database'
+  inputs:
+    targetType: 'inline'
+    script: |
+      & (".\scripts\Database.ps1") -Clean -DatabaseName $(DATABASENAME) -ServerInstance $(SERVERINSTANCE) -ServerUsername $(SERVERUSERNAME) -ServerPassword $(SERVERPASSWORD)
+
+#- task: DotNetCoreCLI@2
+#  displayName: 'dotnet test'
+#  inputs:
+#    command: 'test'
