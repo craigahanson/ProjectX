@@ -32,14 +32,22 @@ steps:
   displayName: 'Build Project ($(buildConfiguration))'
 
 - powershell: |
-    Write-Host "DatabaseName: $env:LOCALDATABASENAME"
+    Write-Host "DatabaseName1: $env:LOCALDATABASENAME1"
+    Write-Host "DatabaseName2: $env:LOCALDATABASENAME2"
+    Write-Host "DatabaseName3: $env:LOCALDATABASENAME3"
+    Write-Host "DatabaseName4: $env:LOCALDATABASENAME4"
     #& (".\scripts\Database.ps1") -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
-    .\scripts\Database.ps1 -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
+    #.\scripts\Database.ps1 -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD
   env:
-    LOCALDATABASENAME: $(DatabaseName)
-    LOCALSERVERINSTANCE: $(ServerInstance)
-    LOCALSERVERUSERNAME: $(ServerUsername)
-    LOCALSERVERPASSWORD: $(ServerPassword)
+    LOCALDATABASENAME1: $(DatabaseName)
+    LOCALDATABASENAME2: $(DATABASENAME)
+    LOCALDATABASENAME3: ${env:DATABASENAME}
+    LOCALDATABASENAME4: $(env:DATABASENAME)
+
+    #LOCALDATABASENAME: $(DatabaseName)
+    #LOCALSERVERINSTANCE: $(ServerInstance)
+    #LOCALSERVERUSERNAME: $(ServerUsername)
+    #LOCALSERVERPASSWORD: $(ServerPassword)
   displayName: 'Build Database'
 
 #- task: PowerShell@2
