@@ -23,7 +23,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Install-Module -Name SqlServer -AllowClobber
+      Install-Module -Name SqlServer -AllowClobber -Force
 
 - script: dotnet tool install --global dotnet-ef
   displayName: 'Install Entity Framework tools'
