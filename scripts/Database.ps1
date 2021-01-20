@@ -1,6 +1,14 @@
 ﻿param(
 	[switch]$Clean,
-    [switch]$Upgrade
+    [switch]$Upgrade,
+    [Parameter(Mandatory=$true)]
+    [string]$DatabaseName,
+    [Parameter(Mandatory=$true)]
+    [string]$ServerInstance,
+    [Parameter(Mandatory=$true)]
+    [string]$ServerUsername,
+    [Parameter(Mandatory=$true)]
+    [string]$ServerPassword
 )
 
 $ErrorActionPreference = "Stop"
@@ -25,19 +33,14 @@ ________          __        ___.
 "
 Write-Host $asciiArt
 
-$databaseName = "ProjectX"
-$serverInstance = "localhost"
-$serverUsername = "sa"
-$serverPassword = "Welcome123"
-
 if($Clean){
     Write-Host "> Starting Clean"
-    DropAndRecreateDatabase -DatabaseName $databaseName -ServerInstance $serverInstance -ServerUsername $serverUsername -ServerPassword $serverPassword
+    DropAndRecreateDatabase -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
     Write-Host "> Finished Clean"
     Write-Host ""
 }
 
 Write-Host "> Starting Applying Migrations"
-ApplyMigrations -DatabaseName $databaseName -ServerInstance $serverInstance -ServerUsername $serverUsername -ServerPassword $serverPassword
+ApplyMigrations -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
 Write-Host "> Finished Applying Migrations"
 Write-Host ""
