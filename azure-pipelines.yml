@@ -18,14 +18,15 @@ steps:
   inputs:
     version: '5.0.x'
 
+- task: PowerShell@2
+  displayName: 'Install Sql Server tools'
+  inputs:
+    targetType: 'inline'
+    script: |
+      Install-Module -Name SqlServer -AllowClobber
+
 - script: dotnet tool install --global dotnet-ef
   displayName: 'Install Entity Framework tools'
-
-- script: dotnet tool install --global PowerShell
-  displayName: 'Install Powershell'
-
-- script: Install-Module -Name SqlServer -AllowClobber
-  displayName: 'Install Sql Server tools'
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
