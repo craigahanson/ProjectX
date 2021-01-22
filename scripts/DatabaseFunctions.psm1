@@ -53,6 +53,11 @@ function privateDropDatabase {
         [string]$ServerPassword
     )
 
+    Write-Host "DatabaseName: $(DatabaseName)"
+    Write-Host "ServerInstance: $(ServerInstance)"
+    Write-Host "ServerUsername: $(ServerUsername)"
+    Write-Host "ServerPassword: $(ServerPassword)"
+
     $serverConnection = New-Object -TypeName Microsoft.SqlServer.Management.Common.ServerConnection -ArgumentList $ServerInstance, $ServerUsername, $ServerPassword
     $server = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Server -ArgumentList $serverConnection
     $server.ConnectionContext.Connect();
