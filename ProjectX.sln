@@ -44,6 +44,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{C21C
 		scripts\Database.ps1 = scripts\Database.ps1
 		scripts\DatabaseFunctions.psm1 = scripts\DatabaseFunctions.psm1
 		scripts\Dev-Database.ps1 = scripts\Dev-Database.ps1
+		scripts\RemoveAzureFirewallRule.ps1 = scripts\RemoveAzureFirewallRule.ps1
+		scripts\SetAzureFirewallRule.ps1 = scripts\SetAzureFirewallRule.ps1
 	EndProjectSection
 EndProject
 Global
