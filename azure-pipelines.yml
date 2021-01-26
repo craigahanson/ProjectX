@@ -32,6 +32,13 @@ steps:
   displayName: 'Build Project ($(buildConfiguration))'
 
 - powershell: |
+    .\scripts\SetAzureFirewallRule.ps1 -ServerName $env:LOCALSERVERINSTANCE -ResourceGroup $env:LOCALRESOURCEGROUP
+  env:
+    LOCALSERVERINSTANCE: $(DbServer)
+    LOCALRESOURCEGROUP: $(ResourceGroup)
+  displayName: 'Set Azure Firewall Rules'
+
+- powershell: |
     .\scripts\Database.ps1 -Clean -DatabaseName $env:LOCALDATABASENAME -ServerInstance $env:LOCALSERVERINSTANCE -ServerUsername $env:LOCALSERVERUSERNAME -ServerPassword $env:LOCALSERVERPASSWORD -Configuration Test
   env:
     LOCALDATABASENAME: $(DbName)
@@ -39,6 +46,13 @@ steps:
     LOCALSERVERUSERNAME: $(DbUser)
     LOCALSERVERPASSWORD: $(DbPassword)
   displayName: 'Build Database'
+
+- powershell: |
+    .\scripts\RemoveAzureFirewallRule.ps1 -ServerName $env:LOCALSERVERINSTANCE -ResourceGroup $env:LOCALRESOURCEGROUP
+  env:
+    LOCALSERVERINSTANCE: $(DbServer)
+    LOCALRESOURCEGROUP: $(ResourceGroup)
+  displayName: 'Remove Azure Firewall Rules'
 
 #- task: DotNetCoreCLI@2
 #  displayName: 'dotnet test'
