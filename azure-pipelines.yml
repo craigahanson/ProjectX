@@ -30,6 +30,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      Install-Module -Name AzureRM.Profile -AllowClobber -Force
       Install-Module -Name AzureRM.sql -AllowClobber -Force
 
 - script: dotnet tool install --global dotnet-ef
