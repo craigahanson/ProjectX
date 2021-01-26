@@ -7,6 +7,7 @@ New project for developing a .net core ecosystem within a docker container
 ### Pre-requisites
 dotnet tool install --global dotnet-ef
 Install-Module -Name SqlServer -AllowClobber
+Install-Module -Name AzureRM.sql -AllowClobber
 dotnet dev-certs https --trust
 
 ### Run Apps

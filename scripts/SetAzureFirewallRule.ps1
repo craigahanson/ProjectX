@@ -1,4 +1,9 @@
-﻿[CmdletBinding(DefaultParameterSetName = 'None')]
+﻿$ErrorActionPreference = "Stop"
+Set-StrictMode -version 3.0
+
+Import-Module -Name "AzureRM.Sql"
+
+[CmdletBinding(DefaultParameterSetName = 'None')]
 param
 (
   [String] [Parameter(Mandatory = $true)] $ServerName,

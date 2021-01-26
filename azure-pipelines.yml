@@ -26,7 +26,7 @@ steps:
       Install-Module -Name SqlServer -AllowClobber -Force
 
 - task: PowerShell@2
-  displayName: 'Install AzureRM tools'
+  displayName: 'Install AzureRM SQL tools'
   inputs:
     targetType: 'inline'
     script: |
