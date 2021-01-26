@@ -8,7 +8,9 @@
     [Parameter(Mandatory=$true)]
     [string]$ServerUsername,
     [Parameter(Mandatory=$true)]
-    [string]$ServerPassword
+    [string]$ServerPassword,
+    [Parameter(Mandatory=$true)]
+    [string]$Configuration
 )
 
 $ErrorActionPreference = "Stop"
@@ -41,6 +43,6 @@ if($Clean){
 }
 
 Write-Host "> Starting Applying Migrations"
-ApplyMigrations -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
+ApplyMigrations -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword -Configuration $Configuration
 Write-Host "> Finished Applying Migrations"
 Write-Host ""

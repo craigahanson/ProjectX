@@ -33,11 +33,13 @@ function ApplyMigrations {
         [Parameter(Mandatory=$true)]
         [string]$ServerUsername,
         [Parameter(Mandatory=$true)]
-        [string]$ServerPassword
+        [string]$ServerPassword,
+        [Parameter(Mandatory=$true)]
+        [string]$Configuration
     )
 
     Write-Host " > Applying Migrations"
-    privateApplyMigrations -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
+    privateApplyMigrations -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword -Configuration $Configuration
     Write-Host " > Applied Migrations"
 }
 
@@ -80,7 +82,6 @@ function privateCreateDatabase {
 
     $databaseToCreate = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Database -Argumentlist $server, $DatabaseName
     $databaseToCreate.Create()
-    $databaseToCreate.RecoveryModel = "simple"
 }
 
 function privateApplyMigrations {
@@ -92,10 +93,18 @@ function privateApplyMigrations {
         [Parameter(Mandatory=$true)]
         [string]$ServerUsername,
         [Parameter(Mandatory=$true)]
-        [string]$ServerPassword
+        [string]$ServerPassword,
+        [Parameter(Mandatory=$true)]
+        [string]$Configuration
     )
 
-    dotnet ef database update --project ..\src\ProjectX.Data.EntityFrameworkCore --startup-project ..\src\ProjectX.Data.EntityFrameworkCore -- "Server=$ServerInstance;Database=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;Trusted_Connection=True;", 5
+    if($Configuration -eq "Development"){
+        $connectionString = "Server=$ServerInstance;Database=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;Trusted_Connection=True;"
+    } else { 
+        $connectionString = "Server=$ServerInstance;Database=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;Trusted_Connection=False;Encrypt=True;"
+    }
+
+    dotnet ef database update --project ..\src\ProjectX.Data.EntityFrameworkCore --startup-project ..\src\ProjectX.Data.EntityFrameworkCore -- $connectionString, 5
 }
 
 Export-ModuleMember -Function DropAndRecreateDatabase

@@ -19,11 +19,12 @@ $databaseName = "ProjectX"
 $serverInstance = "localhost"
 $serverUsername = "sa"
 $serverPassword = "Welcome123"
+$configuration = "Development"
 
 if($Clean){
-    & ($PSScriptRoot + "\Database.ps1") -Clean -DatabaseName $databaseName -ServerInstance $serverInstance -ServerUsername $serverUsername -ServerPassword $serverPassword
+    & ($PSScriptRoot + "\Database.ps1") -Clean -DatabaseName $databaseName -ServerInstance $serverInstance -ServerUsername $serverUsername -ServerPassword $serverPassword -Configuration $configuration
 }
 
 if($Upgrade){
-    & ($PSScriptRoot + "\Database.ps1") -Upgrade -DatabaseName $databaseName -ServerInstance $serverInstance -ServerUsername $serverUsername -ServerPassword $serverPassword
+    & ($PSScriptRoot + "\Database.ps1") -Upgrade -DatabaseName $databaseName -ServerInstance $serverInstance -ServerUsername $serverUsername -ServerPassword $serverPassword -Configuration $configuration
 }
