@@ -2,6 +2,7 @@
 Set-StrictMode -version 3.0
 
 Import-Module -Name "AzureRM.Sql"
+Import-Module -Name "AzureRM.Profile"
 
 param
 (
