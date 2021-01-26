@@ -99,12 +99,10 @@ function privateApplyMigrations {
     )
 
     if($Configuration -eq "Development"){
-        $connectionString = "Server=$ServerInstance;Database=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;Trusted_Connection=True;"
+        dotnet ef database update --project ..\src\ProjectX.Data.EntityFrameworkCore --startup-project ..\src\ProjectX.Data.EntityFrameworkCore -- "Server=$ServerInstance;Database=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;Trusted_Connection=True;", 5
     } else { 
-        $connectionString = "Server=$ServerInstance;Database=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;Trusted_Connection=False;Encrypt=True;"
+        dotnet ef database update --project src\ProjectX.Data.EntityFrameworkCore --startup-project src\ProjectX.Data.EntityFrameworkCore -- "Server=$ServerInstance;Database=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;Trusted_Connection=False;Encrypt=True;", 5
     }
-
-    dotnet ef database update --project ..\src\ProjectX.Data.EntityFrameworkCore --startup-project ..\src\ProjectX.Data.EntityFrameworkCore -- $connectionString, 5
 }
 
 Export-ModuleMember -Function DropAndRecreateDatabase
