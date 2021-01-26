@@ -31,6 +31,13 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build Project ($(buildConfiguration))'
 
+- task: PowerShell@2
+  displayName: 'Install AzureRM tools'
+  inputs:
+    targetType: 'inline'
+    script: |
+      Install-Module -Name AzureRM -AllowClobber -Force
+
 - powershell: |
     .\scripts\SetAzureFirewallRule.ps1 -ServerName $env:LOCALSERVERINSTANCE -ResourceGroup $env:LOCALRESOURCEGROUP
   env:
