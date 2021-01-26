@@ -26,11 +26,17 @@ steps:
       Install-Module -Name SqlServer -AllowClobber -Force
 
 - task: PowerShell@2
-  displayName: 'Install AzureRM SQL tools'
+  displayName: 'Install AzureRM.Profile tools'
   inputs:
     targetType: 'inline'
     script: |
       Install-Module -Name AzureRM.Profile -AllowClobber -Force
+
+- task: PowerShell@2
+  displayName: 'Install AzureRM.sql tools'
+  inputs:
+    targetType: 'inline'
+    script: |
       Install-Module -Name AzureRM.sql -AllowClobber -Force
 
 - script: dotnet tool install --global dotnet-ef
