@@ -99,9 +99,9 @@ function privateApplyMigrations {
     )
 
     if($Configuration -eq "Development"){
-        dotnet ef database update --project ..\src\ProjectX.Data.EntityFrameworkCore --startup-project ..\src\ProjectX.Data.EntityFrameworkCore -- "Server=$ServerInstance;Database=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;Trusted_Connection=True;", 5
+        dotnet ef database update --project ..\src\ProjectX.Data.EntityFrameworkCore --startup-project ..\src\ProjectX.Data.EntityFrameworkCore -- "Server=$ServerInstance;Database=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;Trusted_Connection=True;", 30
     } else {
-        dotnet ef database update --project src/ProjectX.Data.EntityFrameworkCore --startup-project src/ProjectX.Data.EntityFrameworkCore -- "Server=tcp:$ServerInstance,1433;Initial Catalog=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;", 30
+        dotnet ef database update --project src/ProjectX.Data.EntityFrameworkCore --startup-project src/ProjectX.Data.EntityFrameworkCore -- "Server=$ServerInstance;Initial Catalog=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;", 30
     }
 }
 
