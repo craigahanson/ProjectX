@@ -35,14 +35,15 @@ ________          __        ___.
 "
 Write-Host $asciiArt
 
+Write-Host "> Database: $DatabaseName"
 if($Clean){
-    Write-Host "> Starting Clean"
     DropAndRecreateDatabase -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
-    Write-Host "> Finished Clean"
-    Write-Host ""
 }
-
-Write-Host "> Starting Applying Migrations"
 ApplyMigrations -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword -Configuration $Configuration
-Write-Host "> Finished Applying Migrations"
+
 Write-Host ""
+Write-Host "> Database: $($DatabaseName)UnitTest"
+if($Clean){
+    DropAndRecreateDatabase -DatabaseName "$($DatabaseName)UnitTest" -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
+}
+ApplyMigrations -DatabaseName "$($DatabaseName)UnitTest" -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword -Configuration $Configuration

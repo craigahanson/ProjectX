@@ -40,7 +40,7 @@ steps:
     LOCALSERVERPASSWORD: $(DbPassword)
   displayName: 'Build Database'
 
-#- task: DotNetCoreCLI@2
-#  displayName: 'dotnet test'
-#  inputs:
-#    command: 'test'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: 'test'

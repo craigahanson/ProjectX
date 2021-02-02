@@ -15,13 +15,13 @@ function DropAndRecreateDatabase {
         [string]$ServerPassword
     )
 
-    Write-Host " > Dropping database"
+    Write-Host "  > Dropping database"
     privateDropDatabase -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
-    Write-Host " > Dropped Database"
+    Write-Host "  > Dropped Database"
 
-    Write-Host " > Creating database"
+    Write-Host "  > Creating database"
     privateCreateDatabase -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
-    Write-Host " > Created Database"
+    Write-Host "  > Created Database"
 }
 
 function ApplyMigrations {
@@ -38,9 +38,9 @@ function ApplyMigrations {
         [string]$Configuration
     )
 
-    Write-Host " > Applying Migrations"
+    Write-Host "  > Applying Migrations"
     privateApplyMigrations -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword -Configuration $Configuration
-    Write-Host " > Applied Migrations"
+    Write-Host "  > Applied Migrations"
 }
 
 function privateDropDatabase {
