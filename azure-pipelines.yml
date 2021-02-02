@@ -41,6 +41,6 @@ steps:
   displayName: 'Build Database'
 
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet test'
+  displayName: 'Run Unit Tests'
   inputs:
     command: 'test'
