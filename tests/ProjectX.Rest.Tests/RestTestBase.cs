@@ -22,6 +22,7 @@ namespace ProjectX.Rest.Tests
             HttpClientNoAuth = new WebApplicationFactory<Startup>()
                 .WithWebHostBuilder(builder =>
                 {
+                    builder.UseContentRoot(TestContext.CurrentContext.TestDirectory);
                     builder.UseConfiguration(new ConfigurationBuilder().AddJsonFile(Path.Combine(TestContext.CurrentContext.TestDirectory, @"appsettings.json")).Build());
                 })
                 .CreateClient(new WebApplicationFactoryClientOptions());
@@ -29,6 +30,7 @@ namespace ProjectX.Rest.Tests
             HttpClientAuthenticated = new WebApplicationFactory<Startup>()
                 .WithWebHostBuilder(builder =>
                 {
+                    builder.UseContentRoot(TestContext.CurrentContext.TestDirectory);
                     builder.UseConfiguration(new ConfigurationBuilder().AddJsonFile(Path.Combine(TestContext.CurrentContext.TestDirectory, @"appsettings.json")).Build());
                     builder.ConfigureTestServices(services =>
                     {
