@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using ProjectX.Data.Version;
 
 namespace ProjectX.Data.EntityFrameworkCore
@@ -29,6 +30,21 @@ namespace ProjectX.Data.EntityFrameworkCore
             modelBuilder.Entity<EntityVersion>().Property(p => p.Minor).IsRequired();
             modelBuilder.Entity<EntityVersion>().Property(p => p.Build).IsRequired();
             modelBuilder.Entity<EntityVersion>().Property(p => p.Revision).IsRequired();
+
+            var dateTimeNow = DateTimeOffset.UtcNow;
+            modelBuilder.Entity<EntityVersion>().HasData(new []
+            {
+                new EntityVersion
+                {
+                    Id = 1,
+                    Major = 1,
+                    Minor = 0,
+                    Build = 0,
+                    Revision = 0,
+                    CreatedDateTime = dateTimeNow,
+                    UpdatedDateTime = dateTimeNow
+                }
+            });
             
             base.OnModelCreating(modelBuilder);
         }

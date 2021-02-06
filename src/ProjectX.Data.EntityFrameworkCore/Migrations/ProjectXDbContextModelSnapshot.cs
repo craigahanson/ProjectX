@@ -47,6 +47,18 @@ namespace ProjectX.Data.EntityFrameworkCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Versions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Build = 0,
+                            CreatedDateTime = new DateTimeOffset(new DateTime(2021, 2, 6, 11, 5, 8, 856, DateTimeKind.Unspecified).AddTicks(2745), new TimeSpan(0, 0, 0, 0, 0)),
+                            Major = 1,
+                            Minor = 0,
+                            Revision = 0,
+                            UpdatedDateTime = new DateTimeOffset(new DateTime(2021, 2, 6, 11, 5, 8, 856, DateTimeKind.Unspecified).AddTicks(2745), new TimeSpan(0, 0, 0, 0, 0))
+                        });
                 });
 #pragma warning restore 612, 618
         }
