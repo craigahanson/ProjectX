@@ -22,5 +22,15 @@ namespace ProjectX.Data.EntityFrameworkCore
 
             base.OnConfiguring(optionsBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<EntityVersion>().Property(p => p.Major).IsRequired();
+            modelBuilder.Entity<EntityVersion>().Property(p => p.Minor).IsRequired();
+            modelBuilder.Entity<EntityVersion>().Property(p => p.Build).IsRequired();
+            modelBuilder.Entity<EntityVersion>().Property(p => p.Revision).IsRequired();
+            
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

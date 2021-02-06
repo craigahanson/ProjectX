@@ -43,6 +43,25 @@ function ApplyMigrations {
     Write-Host "  > Applied Migrations"
 }
 
+function AddMigration {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$MigrationName,
+        [Parameter(Mandatory=$true)]
+        [string]$DatabaseName,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerInstance,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerUsername,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerPassword
+    )
+
+    Write-Host "  > Adding Migration"
+    privateAddMigration -MigrationName $MigrationName -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
+    Write-Host "  > Added Migration"
+}
+
 function privateDropDatabase {
     param(
         [Parameter(Mandatory=$true)]
@@ -105,5 +124,23 @@ function privateApplyMigrations {
     }
 }
 
+function privateAddMigration {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$MigrationName,
+        [Parameter(Mandatory=$true)]
+        [string]$DatabaseName,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerInstance,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerUsername,
+        [Parameter(Mandatory=$true)]
+        [string]$ServerPassword
+    )
+
+    dotnet ef migrations add $MigrationName --project ..\src\ProjectX.Data.EntityFrameworkCore --startup-project ..\src\ProjectX.Data.EntityFrameworkCore -- "Server=$ServerInstance;Database=$DatabaseName;User ID=$ServerUsername;Password=$ServerPassword;Trusted_Connection=True;", 30
+}
+
 Export-ModuleMember -Function DropAndRecreateDatabase
 Export-ModuleMember -Function ApplyMigrations
+Export-ModuleMember -Function AddMigration

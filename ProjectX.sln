@@ -43,6 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{C21C
 	ProjectSection(SolutionItems) = preProject
 		scripts\Database.ps1 = scripts\Database.ps1
 		scripts\DatabaseFunctions.psm1 = scripts\DatabaseFunctions.psm1
+		scripts\Dev-AddMigration.ps1 = scripts\Dev-AddMigration.ps1
 		scripts\Dev-Database.ps1 = scripts\Dev-Database.ps1
 	EndProjectSection
 EndProject
