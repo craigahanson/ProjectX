@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectX.Data.Version;
 
@@ -23,7 +26,7 @@ namespace ProjectX.Data.EntityFrameworkCore
 
             base.OnConfiguring(optionsBuilder);
         }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<EntityVersion>().Property(p => p.Major).IsRequired();
@@ -47,6 +50,35 @@ namespace ProjectX.Data.EntityFrameworkCore
             });
             
             base.OnModelCreating(modelBuilder);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            SetAutomaticEntityData();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void SetAutomaticEntityData()
+        {
+            this.ChangeTracker.DetectChanges();
+
+            var objectStateEntries = this.ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
+            foreach (var objectStateEntry in objectStateEntries)
+            {
+                var iSupportCreated = objectStateEntry.Entity as ISupportCreatedDateTime;
+                var iSupportUpdated = objectStateEntry.Entity as ISupportUpdatedDateTime;
+                var dateTime = DateTimeOffset.UtcNow;
+
+                if (iSupportCreated != null && objectStateEntry.State == EntityState.Added)
+                {
+                    iSupportCreated.CreatedDateTime = dateTime;
+                }
+                if (iSupportUpdated != null && (objectStateEntry.State == EntityState.Added || objectStateEntry.State == EntityState.Modified))
+                {
+                    iSupportUpdated.UpdatedDateTime = dateTime;
+                }
+            }
         }
     }
 }

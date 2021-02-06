@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -24,6 +26,7 @@ namespace ProjectX.Api.Tests
 
             //Assert
             var exception = Assert.ThrowsAsync<AmbiguousMatchException>(Act);
+            Assert.That(exception, Is.Not.Null);
             Assert.That(exception.Message, Is.EqualTo("No version found"));
         }
 
@@ -45,6 +48,7 @@ namespace ProjectX.Api.Tests
 
             //Assert
             var exception = Assert.ThrowsAsync<AmbiguousMatchException>(Act);
+            Assert.That(exception, Is.Not.Null);
             Assert.That(exception.Message, Is.EqualTo("Multiple versions found"));
         }
 
@@ -66,6 +70,10 @@ namespace ProjectX.Api.Tests
             Assert.That(version.Minor, Is.EqualTo(2));
             Assert.That(version.Build, Is.EqualTo(3));
             Assert.That(version.Revision, Is.EqualTo(4));
+
+            var entityVersion = DbContextForAssert.Versions.Single();
+            Assert.That(entityVersion.CreatedDateTime, Is.EqualTo(DateTimeOffset.UtcNow).Within(1).Seconds);
+            Assert.That(entityVersion.UpdatedDateTime, Is.EqualTo(DateTimeOffset.UtcNow).Within(1).Seconds);
         }
     }
 }
