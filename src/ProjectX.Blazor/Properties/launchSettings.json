@@ -2,7 +2,7 @@
   "profiles": {
     "ProjectX.Blazor": {
       "commandName": "Project",
-      "launchBrowser": false,
+      "launchBrowser": true,
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
       "applicationUrl": "https://localhost:1003",
       "environmentVariables": {
