@@ -3,10 +3,12 @@
   <ItemGroup>
     <ProjectReference Include="..\ProjectX.Api\ProjectX.Api.csproj" />
     <ProjectReference Include="..\ProjectX.Data.EntityFrameworkCore\ProjectX.Data.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\ProjectX.Library\ProjectX.Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Unity.Microsoft.DependencyInjection" Version="5.11.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
   <PropertyGroup>

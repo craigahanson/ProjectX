@@ -5,12 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.3" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\ProjectX.Data.Abstractions\ProjectX.Data.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\ProjectX.Data.EntityFrameworkCore\ProjectX.Data.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\ProjectX.Library\ProjectX.Library.csproj" />
   </ItemGroup>

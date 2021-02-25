@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\ProjectX.Api.Abstractions\ProjectX.Api.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\ProjectX.Blazor\ProjectX.Blazor.csproj" />
     <ProjectReference Include="..\..\src\ProjectX.Rest\ProjectX.Rest.csproj" />
   </ItemGroup>

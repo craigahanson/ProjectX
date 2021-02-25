@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
@@ -15,6 +17,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\ProjectX.Api.Abstractions\ProjectX.Api.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\ProjectX.Api\ProjectX.Api.csproj" />
+    <ProjectReference Include="..\..\src\ProjectX.Data.Abstractions\ProjectX.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\ProjectX.Data.EntityFrameworkCore\ProjectX.Data.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\ProjectX.Rest\ProjectX.Rest.csproj" />
     <ProjectReference Include="..\ProjectX.Testing\ProjectX.Testing.csproj" />
   </ItemGroup>
