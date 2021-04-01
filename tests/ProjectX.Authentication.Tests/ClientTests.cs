@@ -133,12 +133,15 @@ namespace ProjectX.Authentication.Tests
             //Assert
             Assert.That(httpResponseMessage, Is.Not.Null);
             Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            
             var tokenResult = (await httpResponseMessage.Content.ReadAsStringAsync()).FromJsonAsync<TokenResult>();
             Assert.That(tokenResult, Is.Not.Null);
             Assert.That(tokenResult.AccessToken, Is.Not.Null.Or.Empty);
             Assert.That(tokenResult.TokenType, Is.EqualTo("Bearer"));
             Assert.That(tokenResult.ExpiresIn, Is.EqualTo(3600));
             Assert.That(tokenResult.Scope, Is.EqualTo("projectx.rest"));
+            Assert.That(tokenResult.Scopes.Count(), Is.EqualTo(1));
+            Assert.That(tokenResult.Scopes.Select(s => s), Is.EquivalentTo(new [] { "projectx.rest" }));
         }
         
         #endregion
@@ -154,6 +157,8 @@ namespace ProjectX.Authentication.Tests
         public int ExpiresIn { get; set; }
         [JsonPropertyName("scope")]
         public string Scope { get; set; }
+
+        public IEnumerable<string> Scopes => Scope.Split(" ");
     }
 
     public class TokenError
