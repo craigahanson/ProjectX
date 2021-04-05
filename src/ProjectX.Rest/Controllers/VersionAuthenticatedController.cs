@@ -6,7 +6,6 @@ using ProjectX.Api;
 namespace ProjectX.Rest.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class VersionAuthenticatedController : ControllerBase
     {

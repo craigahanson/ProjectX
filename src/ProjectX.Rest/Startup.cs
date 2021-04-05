@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using ProjectX.Di;
 
 namespace ProjectX.Rest
@@ -22,7 +23,14 @@ namespace ProjectX.Rest
             services.AddControllers();
             services
                 .AddMvcCore()
-                .AddAuthorization();
+                .AddAuthorization(options =>
+                {
+                    options.AddPolicy("ProjectXScope", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim("scope", "projectx.rest");
+                    });
+                });
 
             services
                 .AddAuthentication("Bearer")
@@ -31,6 +39,12 @@ namespace ProjectX.Rest
                     options.Authority = "https://localhost:1001";
                     options.Audience = "projectx.rest";
                     options.RequireHttpsMetadata = false;
+                    
+                    //options.Authority = "https://localhost:5001";
+                    //options.TokenValidationParameters = new TokenValidationParameters
+                    //{
+                    //    ValidateAudience = false
+                    //};
                 });
 
             UnityConfig.BuildServicesForRest(services, Configuration);
@@ -54,7 +68,11 @@ namespace ProjectX.Rest
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers()
+                    .RequireAuthorization("ProjectXScope");
+            });
         }
     }
 }
