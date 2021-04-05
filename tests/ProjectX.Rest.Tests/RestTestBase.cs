@@ -19,30 +19,23 @@ namespace ProjectX.Rest.Tests
         [SetUp]
         public new void Setup()
         {
-            HttpClientNoAuth = new WebApplicationFactory<Startup>()
-                .WithWebHostBuilder(builder =>
-                {
-                    builder.UseContentRoot(TestContext.CurrentContext.TestDirectory);
-                    builder.UseConfiguration(new ConfigurationBuilder().AddJsonFile(Path.Combine(TestContext.CurrentContext.TestDirectory, @"appsettings.json")).Build());
-                })
-                .CreateClient(new WebApplicationFactoryClientOptions());
+            HttpClientNoAuth = new TestServer(new WebHostBuilder()
+                    .UseStartup<Startup>()
+                    .UseContentRoot(TestContext.CurrentContext.TestDirectory)
+                    .UseConfiguration(new ConfigurationBuilder().AddJsonFile(Path.Combine(TestContext.CurrentContext.TestDirectory, @"appsettings.json")).Build()))
+                .CreateClient();
 
-            HttpClientAuthenticated = new WebApplicationFactory<Startup>()
-                .WithWebHostBuilder(builder =>
-                {
-                    builder.UseContentRoot(TestContext.CurrentContext.TestDirectory);
-                    builder.UseConfiguration(new ConfigurationBuilder().AddJsonFile(Path.Combine(TestContext.CurrentContext.TestDirectory, @"appsettings.json")).Build());
-                    builder.ConfigureTestServices(services =>
+            HttpClientAuthenticated = new TestServer(new WebHostBuilder()
+                    .UseStartup<Startup>()
+                    .UseContentRoot(TestContext.CurrentContext.TestDirectory)
+                    .UseConfiguration(new ConfigurationBuilder().AddJsonFile(Path.Combine(TestContext.CurrentContext.TestDirectory, @"appsettings.json")).Build())
+                    .ConfigureTestServices(services =>
                     {
                         services.AddAuthentication("Test")
                             .AddScheme<JwtBearerOptions, TestAuthHandler>(
                                 "Test", options => { });
-                    });
-                })
-                .CreateClient(new WebApplicationFactoryClientOptions
-                {
-                    AllowAutoRedirect = false
-                });
+                    }))
+                .CreateClient();
         }
     }
 }
