@@ -117,6 +117,28 @@ namespace ProjectX.Authentication.Tests
         }
         
         [Test]
+        public async Task Token_ReturnsBadRequest_WhenScopeIsInvalid()
+        {
+            //Arrange
+            var httpContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+            { 
+                new KeyValuePair<string, string>("grant_type", "client_credentials"),
+                new KeyValuePair<string, string>("client_id", "testclient"),
+                new KeyValuePair<string, string>("client_secret", "secret"),
+                new KeyValuePair<string, string>("scope", "INVALIDSCOPE")
+            });
+            
+            //Act
+            var httpResponseMessage = await client.PostAsync(TokenEndpoint, httpContent);
+
+            //Assert
+            Assert.That(httpResponseMessage, Is.Not.Null);
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            var tokenError = (await httpResponseMessage.Content.ReadAsStringAsync()).FromJsonAsync<TokenError>();
+            Assert.That(tokenError.Error, Is.EqualTo("invalid_scope"));
+        }
+        
+        [Test]
         public async Task Token_ReturnsOK_WhenClientExistsAndUsesCorrectSecret()
         {
             //Arrange
@@ -124,7 +146,8 @@ namespace ProjectX.Authentication.Tests
             { 
                 new KeyValuePair<string, string>("grant_type", "client_credentials"),
                 new KeyValuePair<string, string>("client_id", "testclient"),
-                new KeyValuePair<string, string>("client_secret", "secret")
+                new KeyValuePair<string, string>("client_secret", "secret"),
+                new KeyValuePair<string, string>("scope", "projectx.rest")
             });
             
             //Act
