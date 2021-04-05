@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
+using ProjectX.Library;
 
 namespace ProjectX.Authentication.Tests
 {
@@ -27,7 +28,6 @@ namespace ProjectX.Authentication.Tests
         {
             var builder = new WebHostBuilder().UseStartup<Startup>();
             var server = new TestServer(builder);
-
             client = server.CreateClient();
         }
         
@@ -145,33 +145,5 @@ namespace ProjectX.Authentication.Tests
         }
         
         #endregion
-    }
-
-    public class TokenResult
-    {
-        [JsonPropertyName("access_token")]
-        public string AccessToken { get; set; }
-        [JsonPropertyName("token_type")]
-        public string TokenType { get; set; }
-        [JsonPropertyName("expires_in")]
-        public int ExpiresIn { get; set; }
-        [JsonPropertyName("scope")]
-        public string Scope { get; set; }
-
-        public IEnumerable<string> Scopes => Scope.Split(" ");
-    }
-
-    public class TokenError
-    {
-        [JsonPropertyName("error")]
-        public string Error { get; set; }
-    }
-
-    public static class StringExtensions
-    {
-        public static T FromJsonAsync<T>(this string json) where T : class
-        {
-            return JsonSerializer.Deserialize<T>(json);
-        }
     }
 }
