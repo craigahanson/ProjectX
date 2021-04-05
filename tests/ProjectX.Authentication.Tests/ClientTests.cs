@@ -21,6 +21,7 @@ namespace ProjectX.Authentication.Tests
     public class ClientTests
     {
         private const string TokenEndpoint = "https://server/connect/token";
+        private const string UserInfoEndpoint = "https://server/connect/userinfo";
         
         private readonly HttpClient client;
         
@@ -165,6 +166,33 @@ namespace ProjectX.Authentication.Tests
             Assert.That(tokenResult.Scope, Is.EqualTo("projectx.rest"));
             Assert.That(tokenResult.Scopes.Count(), Is.EqualTo(1));
             Assert.That(tokenResult.Scopes.Select(s => s), Is.EquivalentTo(new [] { "projectx.rest" }));
+        }
+        
+        #endregion
+        
+        #region UserInfo
+        
+        [Test]
+        public async Task UserInfo_ReturnsForbidden_ForClient()
+        {
+            //Arrange
+            var httpContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+            { 
+                new KeyValuePair<string, string>("grant_type", "client_credentials"),
+                new KeyValuePair<string, string>("client_id", "testclient"),
+                new KeyValuePair<string, string>("client_secret", "secret"),
+                new KeyValuePair<string, string>("scope", "projectx.rest")
+            });
+            var loginMessage = await client.PostAsync(TokenEndpoint, httpContent);
+            var tokenResult = (await loginMessage.Content.ReadAsStringAsync()).FromJsonAsync<TokenResult>();
+            
+            //Act
+            client.SetToken("Bearer", tokenResult.AccessToken);
+            var httpResponseMessage = await client.GetAsync(UserInfoEndpoint);
+
+            //Assert
+            Assert.That(httpResponseMessage, Is.Not.Null);
+            Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
         }
         
         #endregion
