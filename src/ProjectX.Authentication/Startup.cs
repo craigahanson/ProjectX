@@ -22,13 +22,14 @@ namespace ProjectX.Authentication
             services.AddControllersWithViews();
 
             var builder = services.AddIdentityServer(options =>
-            {
-                // https://docs.duendesoftware.com/identityserver/v5/fundamentals/resources/
-                options.EmitStaticAudienceClaim = true;
-            })
+                {
+                    // https://docs.duendesoftware.com/identityserver/v5/fundamentals/resources/
+                    options.EmitStaticAudienceClaim = true;
+                })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients);
+                .AddInMemoryClients(Config.Clients)
+                .AddTestUsers(Config.Users);
         }
 
         public void Configure(IApplicationBuilder app)

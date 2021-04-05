@@ -36,15 +36,12 @@ namespace ProjectX.Rest
                 .AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://localhost:1001";
-                    options.Audience = "projectx.rest";
-                    options.RequireHttpsMetadata = false;
                     
-                    //options.Authority = "https://localhost:5001";
-                    //options.TokenValidationParameters = new TokenValidationParameters
-                    //{
-                    //    ValidateAudience = false
-                    //};
+                    options.Authority = "https://localhost:5001";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
                 });
 
             UnityConfig.BuildServicesForRest(services, Configuration);

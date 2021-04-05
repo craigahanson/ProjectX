@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -16,13 +17,13 @@ namespace ProjectX.Blazor
 
             builder.Services.AddHttpClient("HttpClient", client => client.BaseAddress = new Uri("https://localhost:1002/api/"))
                 .AddHttpMessageHandler(sp => sp.GetRequiredService<AuthorizationMessageHandler>()
-                    .ConfigureHandler(new[] { "https://localhost:1001" }, new[] { "opendid", "profile", "projectx.rest" }));
+                    .ConfigureHandler(new[] { "https://localhost:5001" }, new[] { "opendid", "profile", "projectx.rest" }));
 
             builder.Services.AddHttpClient("HttpClientNoAuth", client => client.BaseAddress = new Uri("https://localhost:1002/api/"));
 
             builder.Services.AddOidcAuthentication(options =>
             {
-                options.ProviderOptions.Authority = "https://localhost:1001";
+                options.ProviderOptions.Authority = "https://localhost:5001";
                 options.ProviderOptions.ClientId = "projectx.blazor";
                 options.ProviderOptions.DefaultScopes.Add("openid");
                 options.ProviderOptions.DefaultScopes.Add("profile");
