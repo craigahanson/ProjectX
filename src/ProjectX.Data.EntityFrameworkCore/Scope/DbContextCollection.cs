@@ -177,8 +177,6 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
 
         public async Task<int> CommitAsync(CancellationToken cancelToken)
         {
-            if (cancelToken == null)
-                throw new ArgumentNullException("cancelToken");
             if (_disposed)
                 throw new ObjectDisposedException("DbContextCollection");
             if (_completed)

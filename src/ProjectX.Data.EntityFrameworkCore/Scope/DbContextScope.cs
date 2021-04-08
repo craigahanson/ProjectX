@@ -88,8 +88,6 @@ namespace ProjectX.Data.EntityFrameworkCore.Scope
 
         public async Task<int> SaveChangesAsync(CancellationToken cancelToken)
         {
-            if (cancelToken == null)
-                throw new ArgumentNullException("cancelToken");
             if (_disposed)
                 throw new ObjectDisposedException("DbContextScope");
             if (_completed)
