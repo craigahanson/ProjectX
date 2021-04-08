@@ -18,19 +18,10 @@ using ProjectX.Library;
 namespace ProjectX.Authentication.Tests
 {
     [TestFixture]
-    public class ClientTests
+    public class ClientTests : AuthenticationTestBase
     {
         private const string TokenEndpoint = "https://server/connect/token";
         private const string UserInfoEndpoint = "https://server/connect/userinfo";
-        
-        private readonly HttpClient client;
-        
-        public ClientTests()
-        {
-            var builder = new WebHostBuilder().UseStartup<Startup>();
-            var server = new TestServer(builder);
-            client = server.CreateClient();
-        }
         
         #region Token
         
@@ -45,7 +36,7 @@ namespace ProjectX.Authentication.Tests
             });
             
             //Act
-            var httpResponseMessage = await client.PostAsync(TokenEndpoint, httpContent);
+            var httpResponseMessage = await HttpClient.PostAsync(TokenEndpoint, httpContent);
 
             //Assert
             Assert.That(httpResponseMessage, Is.Not.Null);
@@ -66,7 +57,7 @@ namespace ProjectX.Authentication.Tests
             });
             
             //Act
-            var httpResponseMessage = await client.PostAsync(TokenEndpoint, httpContent);
+            var httpResponseMessage = await HttpClient.PostAsync(TokenEndpoint, httpContent);
 
             //Assert
             Assert.That(httpResponseMessage, Is.Not.Null);
@@ -87,7 +78,7 @@ namespace ProjectX.Authentication.Tests
             });
             
             //Act
-            var httpResponseMessage = await client.PostAsync(TokenEndpoint, httpContent);
+            var httpResponseMessage = await HttpClient.PostAsync(TokenEndpoint, httpContent);
 
             //Assert
             Assert.That(httpResponseMessage, Is.Not.Null);
@@ -108,7 +99,7 @@ namespace ProjectX.Authentication.Tests
             });
             
             //Act
-            var httpResponseMessage = await client.PostAsync(TokenEndpoint, httpContent);
+            var httpResponseMessage = await HttpClient.PostAsync(TokenEndpoint, httpContent);
 
             //Assert
             Assert.That(httpResponseMessage, Is.Not.Null);
@@ -130,7 +121,7 @@ namespace ProjectX.Authentication.Tests
             });
             
             //Act
-            var httpResponseMessage = await client.PostAsync(TokenEndpoint, httpContent);
+            var httpResponseMessage = await HttpClient.PostAsync(TokenEndpoint, httpContent);
 
             //Assert
             Assert.That(httpResponseMessage, Is.Not.Null);
@@ -152,7 +143,7 @@ namespace ProjectX.Authentication.Tests
             });
             
             //Act
-            var httpResponseMessage = await client.PostAsync(TokenEndpoint, httpContent);
+            var httpResponseMessage = await HttpClient.PostAsync(TokenEndpoint, httpContent);
             
             //Assert
             Assert.That(httpResponseMessage, Is.Not.Null);
@@ -183,12 +174,12 @@ namespace ProjectX.Authentication.Tests
                 new KeyValuePair<string, string>("client_secret", "secret"),
                 new KeyValuePair<string, string>("scope", "projectx.rest")
             });
-            var loginMessage = await client.PostAsync(TokenEndpoint, httpContent);
+            var loginMessage = await HttpClient.PostAsync(TokenEndpoint, httpContent);
             var tokenResult = (await loginMessage.Content.ReadAsStringAsync()).FromJsonAsync<TokenResult>();
             
             //Act
-            client.SetToken("Bearer", tokenResult.AccessToken);
-            var httpResponseMessage = await client.GetAsync(UserInfoEndpoint);
+            HttpClient.SetToken("Bearer", tokenResult.AccessToken);
+            var httpResponseMessage = await HttpClient.GetAsync(UserInfoEndpoint);
 
             //Assert
             Assert.That(httpResponseMessage, Is.Not.Null);
