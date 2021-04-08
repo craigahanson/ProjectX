@@ -37,7 +37,7 @@ namespace ProjectX.Rest
                 .AddJwtBearer("Bearer", options =>
                 {
                     
-                    options.Authority = "https://localhost:5001";
+                    options.Authority = "https://localhost:1001";
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateAudience = false

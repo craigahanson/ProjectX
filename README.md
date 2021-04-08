@@ -13,7 +13,7 @@ dotnet dev-certs https --trust
 ### Run Apps
 ||Port|Command|
 |-|-|-|
-|ProjectX.Authentication|5001|dotnet run watch --project src/ProjectX.Authentication|
+|ProjectX.Authentication|1001|dotnet run watch --project src/ProjectX.Authentication|
 |ProjectX.Rest|1002|dotnet run watch --project src/ProjectX.Rest|
 |ProjectX.Blazor|1003|dotnet run watch --project src/ProjectX.Blazor|
 
