@@ -24,3 +24,12 @@ chrome --remote-debugging-port=9222 --user-data-dir="C:\Users\craig\AppData\Loca
 #### Scope sources
 https://mehdi.me/ambient-dbcontext-in-ef6/  
 https://github.com/mehdime/DbContextScope
+
+### Build scripts
+#### Database
+.\Dev-Database.ps1 -Clean  
+.\Dev-Database.ps1 -Upgrade
+#### Migrations
+.\Dev-AddMigration.ps1 -MigrationName ##MigrationName## -Context ProjextXContext  
+.\Dev-AddMigration.ps1 -MigrationName ##MigrationName## -Context PersistedGrantDbContext  
+.\Dev-AddMigration.ps1 -MigrationName ##MigrationName## -Context ConfigurationDbContext

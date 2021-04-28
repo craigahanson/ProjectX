@@ -7,13 +7,12 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -version 3.0
 Import-Module "$PSScriptRoot\DatabaseFunctions.psm1" -DisableNameChecking -Force
 
-
 if(!$Clean -and !$Upgrade){
 	Write-Host "ERROR: Must specify database build type [-Clean, -Upgrade]" -ForegroundColor red
     Exit(0)
 }
 
-cls
+Clear-Host
 
 $databaseName = "ProjectX"
 $serverInstance = "localhost"

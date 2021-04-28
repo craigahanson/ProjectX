@@ -35,14 +35,11 @@ ________          __        ___.
 "
 Write-Host $asciiArt
 
-Write-Host "> Database: $DatabaseName"
 if($Clean){
     DropAndRecreateDatabase -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
 }
 ApplyMigrations -DatabaseName $DatabaseName -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword -Configuration $Configuration
 
-Write-Host ""
-Write-Host "> Database: $($DatabaseName)UnitTest"
 if($Clean){
     DropAndRecreateDatabase -DatabaseName "$($DatabaseName)UnitTest" -ServerInstance $ServerInstance -ServerUsername $ServerUsername -ServerPassword $ServerPassword
 }
