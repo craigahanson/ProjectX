@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using IdentityModel;
+using Duende.IdentityServer.EntityFramework.Entities;
+using Duende.IdentityServer.Models;
 using IdentityModel.Client;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 using ProjectX.Library;
+using ApiScope = Duende.IdentityServer.EntityFramework.Entities.ApiScope;
+using Client = Duende.IdentityServer.EntityFramework.Entities.Client;
 
 namespace ProjectX.Authentication.Tests
 {
@@ -29,6 +26,16 @@ namespace ProjectX.Authentication.Tests
         public async Task Token_ReturnsBadRequest_WhenGrantTypeIsMissing()
         {
             //Arrange
+            ConfigurationDbContextForArrange.ApiScopes.Add(new ApiScope { Name = "projectx.rest" });
+            ConfigurationDbContextForArrange.Clients.Add(new Client
+            {
+                ClientId = "testclient",  
+                AllowedGrantTypes = new List<ClientGrantType> { new ClientGrantType { GrantType = "client_credentials" } },
+                AllowedScopes = new List<ClientScope> { new ClientScope { Scope = "projectx.rest" } },
+                ClientSecrets = new List<ClientSecret> { new ClientSecret { Value = "secret".Sha256() }}
+            });
+            await ConfigurationDbContextForArrange.SaveChangesAsync();
+            
             var httpContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("client_id", "testclient"),
@@ -49,6 +56,16 @@ namespace ProjectX.Authentication.Tests
         public async Task Token_ReturnsBadRequest_WhenGrantTypeIsNotValid()
         {
             //Arrange
+            ConfigurationDbContextForArrange.ApiScopes.Add(new ApiScope { Name = "projectx.rest" });
+            ConfigurationDbContextForArrange.Clients.Add(new Client
+            {
+                ClientId = "testclient",  
+                AllowedGrantTypes = new List<ClientGrantType> { new ClientGrantType { GrantType = "client_credentials" } },
+                AllowedScopes = new List<ClientScope> { new ClientScope { Scope = "projectx.rest" } },
+                ClientSecrets = new List<ClientSecret> { new ClientSecret { Value = "secret".Sha256() }}
+            });
+            await ConfigurationDbContextForArrange.SaveChangesAsync();
+            
             var httpContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("grant_type", "implicit"),
@@ -70,6 +87,16 @@ namespace ProjectX.Authentication.Tests
         public async Task Token_ReturnsBadRequest_WhenClientDoesNotExist()
         {
             //Arrange
+            ConfigurationDbContextForArrange.ApiScopes.Add(new ApiScope { Name = "projectx.rest" });
+            ConfigurationDbContextForArrange.Clients.Add(new Client
+            {
+                ClientId = "testclient",  
+                AllowedGrantTypes = new List<ClientGrantType> { new ClientGrantType { GrantType = "client_credentials" } },
+                AllowedScopes = new List<ClientScope> { new ClientScope { Scope = "projectx.rest" } },
+                ClientSecrets = new List<ClientSecret> { new ClientSecret { Value = "secret".Sha256() }}
+            });
+            await ConfigurationDbContextForArrange.SaveChangesAsync();
+            
             var httpContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
             { 
                 new KeyValuePair<string, string>("grant_type", "client_credentials"),
@@ -91,6 +118,16 @@ namespace ProjectX.Authentication.Tests
         public async Task Token_ReturnsBadRequest_WhenClientSecretDoesNotMatch()
         {
             //Arrange
+            ConfigurationDbContextForArrange.ApiScopes.Add(new ApiScope { Name = "projectx.rest" });
+            ConfigurationDbContextForArrange.Clients.Add(new Client
+            {
+                ClientId = "testclient",  
+                AllowedGrantTypes = new List<ClientGrantType> { new ClientGrantType { GrantType = "client_credentials" } },
+                AllowedScopes = new List<ClientScope> { new ClientScope { Scope = "projectx.rest" } },
+                ClientSecrets = new List<ClientSecret> { new ClientSecret { Value = "secret".Sha256() }}
+            });
+            await ConfigurationDbContextForArrange.SaveChangesAsync();
+            
             var httpContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
             { 
                 new KeyValuePair<string, string>("grant_type", "client_credentials"),
@@ -112,6 +149,16 @@ namespace ProjectX.Authentication.Tests
         public async Task Token_ReturnsBadRequest_WhenScopeIsInvalid()
         {
             //Arrange
+            ConfigurationDbContextForArrange.ApiScopes.Add(new ApiScope { Name = "projectx.rest" });
+            ConfigurationDbContextForArrange.Clients.Add(new Client
+            {
+                ClientId = "testclient",  
+                AllowedGrantTypes = new List<ClientGrantType> { new ClientGrantType { GrantType = "client_credentials" } },
+                AllowedScopes = new List<ClientScope> { new ClientScope { Scope = "projectx.rest" } },
+                ClientSecrets = new List<ClientSecret> { new ClientSecret { Value = "secret".Sha256() }}
+            });
+            await ConfigurationDbContextForArrange.SaveChangesAsync();
+            
             var httpContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
             { 
                 new KeyValuePair<string, string>("grant_type", "client_credentials"),
@@ -134,6 +181,16 @@ namespace ProjectX.Authentication.Tests
         public async Task Token_ReturnsOK_WhenClientExistsAndUsesCorrectSecret()
         {
             //Arrange
+            ConfigurationDbContextForArrange.ApiScopes.Add(new ApiScope { Name = "projectx.rest" });
+            ConfigurationDbContextForArrange.Clients.Add(new Client
+            {
+                ClientId = "testclient",  
+                AllowedGrantTypes = new List<ClientGrantType> { new ClientGrantType { GrantType = "client_credentials" } },
+                AllowedScopes = new List<ClientScope> { new ClientScope { Scope = "projectx.rest" } },
+                ClientSecrets = new List<ClientSecret> { new ClientSecret { Value = "secret".Sha256() }}
+            });
+            await ConfigurationDbContextForArrange.SaveChangesAsync();
+            
             var httpContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
             { 
                 new KeyValuePair<string, string>("grant_type", "client_credentials"),
@@ -167,6 +224,16 @@ namespace ProjectX.Authentication.Tests
         public async Task UserInfo_ReturnsForbidden_ForClient()
         {
             //Arrange
+            ConfigurationDbContextForArrange.ApiScopes.Add(new ApiScope { Name = "projectx.rest" });
+            ConfigurationDbContextForArrange.Clients.Add(new Client
+            {
+                ClientId = "testclient",  
+                AllowedGrantTypes = new List<ClientGrantType> { new ClientGrantType { GrantType = "client_credentials" } },
+                AllowedScopes = new List<ClientScope> { new ClientScope { Scope = "projectx.rest" } },
+                ClientSecrets = new List<ClientSecret> { new ClientSecret { Value = "secret".Sha256() }}
+            });
+            await ConfigurationDbContextForArrange.SaveChangesAsync();
+            
             var httpContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
             { 
                 new KeyValuePair<string, string>("grant_type", "client_credentials"),
@@ -174,6 +241,7 @@ namespace ProjectX.Authentication.Tests
                 new KeyValuePair<string, string>("client_secret", "secret"),
                 new KeyValuePair<string, string>("scope", "projectx.rest")
             });
+            
             var loginMessage = await HttpClient.PostAsync(TokenEndpoint, httpContent);
             var tokenResult = (await loginMessage.Content.ReadAsStringAsync()).FromJsonAsync<TokenResult>();
             

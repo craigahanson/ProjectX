@@ -9,6 +9,12 @@ namespace ProjectX.Authentication.Context
         private readonly int? commandTimeout;
         private readonly string connectionString;
 
+        public ProjectXPersistedGrantDbContext(DbContextOptions<PersistedGrantDbContext> options, OperationalStoreOptions storeOptions)
+            : base(options, storeOptions)
+        {
+            
+        }
+        
         public ProjectXPersistedGrantDbContext(string connectionString, int? commandTimeout) : base(new DbContextOptions<PersistedGrantDbContext>(), new OperationalStoreOptions())
         {
             this.connectionString = connectionString;

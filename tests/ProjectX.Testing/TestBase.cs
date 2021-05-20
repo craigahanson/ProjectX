@@ -10,12 +10,12 @@ namespace ProjectX.Testing
 {
     public class TestBase
     {
-        private AppSettings appSettings;
+        public AppSettings AppSettings;
 
         public TestBase()
         {
             var builder = new ConfigurationBuilder().AddJsonFile(Path.Combine(TestContext.CurrentContext.TestDirectory, @"appsettings.json"), optional: false, reloadOnChange: true);
-            appSettings = builder.Build().CreateAppSettings();
+            AppSettings = builder.Build().CreateAppSettings();
         }
 
         public ProjectXDbContext DbContextForArrange { get; set; }
@@ -23,7 +23,7 @@ namespace ProjectX.Testing
         
         public DbContextScopeFactory CreateDbContextScopeFactory()
         {
-            return new DbContextScopeFactory(new DbContextFactory(appSettings.Database.ConnectionString, appSettings.Database.CommandTimeout));
+            return new DbContextScopeFactory(new DbContextFactory(AppSettings.Database.ConnectionString, AppSettings.Database.CommandTimeout));
         }
 
         [SetUp]
@@ -31,13 +31,13 @@ namespace ProjectX.Testing
         {
             DeleteEverything();
 
-            DbContextForArrange = new ProjectXDbContext(appSettings.Database.ConnectionString, appSettings.Database.CommandTimeout);
-            DbContextForAssert = new ProjectXDbContext(appSettings.Database.ConnectionString, appSettings.Database.CommandTimeout);
+            DbContextForArrange = new ProjectXDbContext(AppSettings.Database.ConnectionString, AppSettings.Database.CommandTimeout);
+            DbContextForAssert = new ProjectXDbContext(AppSettings.Database.ConnectionString, AppSettings.Database.CommandTimeout);
         }
 
         public void DeleteEverything()
         {
-            using (var dbContext = new ProjectXDbContext(appSettings.Database.ConnectionString, appSettings.Database.CommandTimeout))
+            using (var dbContext = new ProjectXDbContext(AppSettings.Database.ConnectionString, AppSettings.Database.CommandTimeout))
             {
                 dbContext.Database.ExecuteSqlRaw("delete from Versions");
             }
